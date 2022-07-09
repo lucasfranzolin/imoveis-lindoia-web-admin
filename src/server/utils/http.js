@@ -2,22 +2,19 @@ import axios from 'axios';
 import httpStatus from 'http-status';
 import nookies from 'nookies';
 
-import {
-    sessionCookieId,
-    tokenCookieId,
-    tokenCookieMaxAge,
-} from '../../shared/constants';
+import { sessionCookieId, tokenCookieId } from '../../shared/constants';
 
 export function getHttp(context) {
+    const baseURL = process.env.CORE_API;
+
     const http = axios.create({
-        baseURL: process.env.CORE_API,
+        baseURL,
     });
 
     http.interceptors.request.use(
         (config) => {
             if (!config.headers.Authorization) {
-                const cookies = nookies.get(context);
-                const token = cookies[tokenCookieId];
+                const token = nookies.get(context)[tokenCookieId];
                 config.headers.Authorization = `Bearer ${token}`;
             }
             return config;
@@ -30,21 +27,21 @@ export function getHttp(context) {
         async (err) => {
             if (
                 err.response.data.code === httpStatus.UNAUTHORIZED &&
-                !err.config.sent
+                !err.config.sent // Check if it's the first attempt.
             ) {
+                // Retry once, next attempt `err.config.sent` will exist with value `true`.
+                // So the promise will be rejected with code 401.
                 err.config.sent = true;
-                const cookies = nookies.get(context);
-                const sessionId = cookies[sessionCookieId];
-                const url = `${process.env.CORE_API}/auth/refresh-token`;
+
+                const sessionId = nookies.get(context)[sessionCookieId];
+                const url = `${baseURL}/auth/refresh-token`;
                 const { token } = await axios
                     .post(url, { sessionId })
                     .then((res) => res.data);
-                nookies.set(context, tokenCookieId, token, {
-                    maxAge: tokenCookieMaxAge,
-                });
+                nookies.set(context, tokenCookieId, token);
                 nookies.set(context, sessionCookieId, sessionId);
                 err.config.headers.Authorization = `Bearer ${token}`;
-                return axios.request(err.config); // retry last request once with refreshed token
+                return axios.request(err.config);
             }
             return Promise.reject(err);
         }

@@ -1,10 +1,10 @@
 import httpStatus from 'http-status';
 
-import { login } from '../../../server/controllers/auth';
+import { paginate } from '../../../server/controllers/customers';
 
 export default async function handler(req, res) {
-    if (req.method !== 'POST') {
+    if (req.method !== 'GET') {
         return res.status(httpStatus.METHOD_NOT_ALLOWED).send();
     }
-    return await login(req, res);
+    return await paginate(req, res);
 }

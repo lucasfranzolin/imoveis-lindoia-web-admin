@@ -4,11 +4,7 @@ import nookies from 'nookies';
 import PropTypes from 'prop-types';
 import { createContext, useCallback, useState } from 'react';
 
-import {
-    sessionCookieId,
-    tokenCookieId,
-    tokenCookieMaxAge,
-} from '../../shared/constants';
+import { sessionCookieId, tokenCookieId } from '../../shared/constants';
 
 export const AuthContext = createContext({});
 
@@ -25,9 +21,7 @@ const AuthProvider = ({ children }) => {
                     email,
                     password,
                 });
-                nookies.set(undefined, tokenCookieId, data.token, {
-                    maxAge: tokenCookieMaxAge,
-                });
+                nookies.set(undefined, tokenCookieId, data.token);
                 nookies.set(undefined, sessionCookieId, data.sessionId);
                 router.push('/');
             } catch (err) {
@@ -40,9 +34,7 @@ const AuthProvider = ({ children }) => {
     const logout = useCallback(async () => {
         setError(null);
         try {
-            await axios.post('/api/auth/logout', {
-                sessionId: session.uuid,
-            });
+            await axios.post('/api/auth/logout', { sessionId: session.uuid });
             nookies.destroy(undefined, tokenCookieId);
             nookies.destroy(undefined, sessionCookieId);
             router.push('/login');

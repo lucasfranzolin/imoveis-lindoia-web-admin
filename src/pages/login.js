@@ -1,9 +1,9 @@
 import { Login } from '../client/components/Login';
-import { getSession } from '../server/utils/session';
+import { authService } from '../server/services/auth';
 
 export async function getServerSideProps(context) {
     try {
-        await getSession(context);
+        await authService(context).verify();
         return {
             redirect: {
                 destination: '/',

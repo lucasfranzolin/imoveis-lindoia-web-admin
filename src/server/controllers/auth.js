@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 
-import { authService } from '../../server/services/auth';
-import { errorHandler } from '../utils/errorHandler';
+import { authService } from '../services/auth';
+import { errorHandler } from '../utils/error';
 
 export async function login(req, res) {
     const { email, password } = req.body;
