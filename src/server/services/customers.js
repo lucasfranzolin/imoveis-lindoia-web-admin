@@ -1,25 +1,17 @@
 import { getHttp } from '../utils/http';
+import { getSearchParams } from '../utils/pagination';
 
 export const customersService = (context) => {
     const http = getHttp(context);
     return {
-        paginate: ({ limit, order, page, sortBy }) => {
-            return http.get('/customers', {
-                params: {
-                    limit,
-                    order,
-                    page,
-                    sortBy,
-                },
-            });
+        paginate: (query) => {
+            return http.get(`/customers?${getSearchParams(query)}`);
         },
         save: ({ email, phone, fullName }) => {
             return http.post('/customers', {
-                data: {
-                    email,
-                    phone,
-                    fullName,
-                },
+                email,
+                phone,
+                fullName,
             });
         },
     };

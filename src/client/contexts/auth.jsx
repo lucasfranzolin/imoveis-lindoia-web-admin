@@ -13,35 +13,35 @@ const AuthProvider = ({ children }) => {
     const [session, setSession] = useState();
     const [error, setError] = useState();
 
-    const login = useCallback(
-        async ({ email, password }) => {
-            setError(null);
-            try {
-                const { data } = await axios.post('/api/auth/login', {
-                    email,
-                    password,
-                });
-                nookies.set(undefined, tokenCookieId, data.token);
-                nookies.set(undefined, sessionCookieId, data.sessionId);
-                router.push('/');
-            } catch (err) {
-                setError(err.data.message);
-            }
-        },
-        [router]
-    );
-
-    const logout = useCallback(async () => {
+    const login = async ({ email, password }) => {
         setError(null);
         try {
-            await axios.post('/api/auth/logout', { sessionId: session.uuid });
+            const { data } = await axios.post('/api/auth/login', {
+                email,
+                password,
+            });
+            nookies.set(undefined, tokenCookieId, data.token);
+            nookies.set(undefined, sessionCookieId, data.sessionId);
+            router.push('/');
+        } catch (err) {
+            console.error(err);
+            setError(err.response.data.message);
+        }
+    };
+
+    const logout = async () => {
+        setError(null);
+        try {
+            const sessionId = nookies.get()[sessionCookieId];
+            await axios.post('/api/auth/logout', { sessionId });
             nookies.destroy(undefined, tokenCookieId);
             nookies.destroy(undefined, sessionCookieId);
             router.push('/login');
         } catch (err) {
-            setError(err.data.message);
+            console.error(err);
+            setError(err.response.data.message);
         }
-    }, [router, session]);
+    };
 
     return (
         <AuthContext.Provider

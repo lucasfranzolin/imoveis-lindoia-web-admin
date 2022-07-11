@@ -7,19 +7,10 @@ export const authService = (context) => {
     const http = getHttp(context);
     return {
         login: ({ email, password }) => {
-            return http.post('/auth/login', {
-                data: {
-                    email,
-                    password,
-                },
-            });
+            return http.post('/auth/login', { email, password });
         },
         logout: ({ sessionId }) => {
-            return http.post('/auth/logout', {
-                data: {
-                    sessionId,
-                },
-            });
+            return http.post('/auth/logout', { sessionId });
         },
         verify: async () => {
             const sessionId = nookies.get(context)[sessionCookieId];
@@ -28,11 +19,7 @@ export const authService = (context) => {
                 nookies.destroy(context, tokenCookieId);
                 return Promise.reject();
             }
-            return await http.post('/auth/verify', {
-                data: {
-                    sessionId,
-                },
-            });
+            return await http.post('/auth/verify', { sessionId });
         },
     };
 };
