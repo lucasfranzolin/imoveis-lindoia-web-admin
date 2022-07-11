@@ -1,17 +1,17 @@
 import { customersService } from '../services/customers';
 import { errorHandler } from '../utils/error';
 
-export async function paginate(req, res) {
-    const { limit, order, page, sortBy } = req.query;
+export async function paginate(context) {
+    const { limit, order, page, sortBy } = context.req.query;
     try {
-        const { data } = await customersService({ req, res }).paginate({
+        const { data } = await customersService(context).paginate({
             limit,
             order,
             page,
             sortBy,
         });
-        return res.json(data);
+        return context.res.json(data);
     } catch (err) {
-        return errorHandler(err, req, res);
+        return errorHandler(err, context);
     }
 }

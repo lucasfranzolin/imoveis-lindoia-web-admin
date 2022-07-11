@@ -3,45 +3,53 @@ import httpStatus from 'http-status';
 import { authService } from '../services/auth';
 import { errorHandler } from '../utils/error';
 
-export async function login(req, res) {
-    const { email, password } = req.body;
+export async function login(context) {
     try {
         const {
             data: { token, session },
-        } = await authService({ req, res }).login({ email, password });
+        } = await authService(context).login(context.req.body);
 
-        return res.json({
+        return context.res.json({
             token,
             sessionId: session.uuid,
         });
     } catch (err) {
-        return errorHandler(err, req, res);
+        return errorHandler(err, context);
     }
 }
 
-export async function refreshToken(req, res) {
-    const { sessionId } = req.body;
+export async function refreshToken(context) {
     try {
         const {
             data: { token },
-        } = await authService({ req, res }).refreshToken({ sessionId });
+        } = await authService(context).refreshToken(context.req.body);
 
-        return res.json({
+        return context.res.json({
             token,
-            sessionId,
+            sessionId: context.req.body.sessionId,
         });
     } catch (err) {
-        return errorHandler(err, req, res);
+        return errorHandler(err, context);
     }
 }
 
-export async function logout(req, res) {
-    const { sessionId } = req.body;
+export async function logout(context) {
     try {
-        await authService({ req, res }).logout({ sessionId });
+        await authService(context).logout(context.req.body);
 
-        return res.status(httpStatus.OK).send();
+        return context.res.status(httpStatus.OK).send();
     } catch (err) {
-        return errorHandler(err, req, res);
+        return errorHandler(err, context);
+    }
+}
+
+export async function register(context) {
+    try {
+        const { status } = await authService(context).register(
+            context.req.body
+        );
+        return context.res.status(status).send();
+    } catch (err) {
+        return errorHandler(err, context);
     }
 }

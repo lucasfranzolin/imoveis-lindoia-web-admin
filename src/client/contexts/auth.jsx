@@ -13,6 +13,19 @@ const AuthProvider = ({ children }) => {
     const [session, setSession] = useState();
     const [error, setError] = useState();
 
+    const register = async ({ email, name, password }) => {
+        try {
+            const { data } = await axios.post('/api/auth/register', {
+                email,
+                name,
+                password,
+            });
+            router.push('/login');
+        } catch (err) {
+            setError(err.response.data.message);
+        }
+    };
+
     const login = async ({ email, password }) => {
         setError(null);
         try {
@@ -24,7 +37,6 @@ const AuthProvider = ({ children }) => {
             nookies.set(undefined, sessionCookieId, data.sessionId);
             router.push('/');
         } catch (err) {
-            console.error(err);
             setError(err.response.data.message);
         }
     };
@@ -38,7 +50,6 @@ const AuthProvider = ({ children }) => {
             nookies.destroy(undefined, sessionCookieId);
             router.push('/login');
         } catch (err) {
-            console.error(err);
             setError(err.response.data.message);
         }
     };
@@ -49,6 +60,7 @@ const AuthProvider = ({ children }) => {
                 error,
                 login,
                 logout,
+                register,
                 session,
                 setSession,
             }}

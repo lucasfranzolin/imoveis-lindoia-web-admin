@@ -21,5 +21,8 @@ export const authService = (context) => {
             }
             return await http.post('/auth/verify', { sessionId });
         },
+        register: ({ email, name, password }) => {
+            return http.post('/auth/register', { email, name, password });
+        },
     };
 };

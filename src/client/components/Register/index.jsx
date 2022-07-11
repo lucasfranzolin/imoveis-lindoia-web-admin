@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 import styles from './styles.module.scss';
 
-const Login = () => {
+const Register = () => {
     const { login } = useContext(AuthContext);
 
     const handleSubmit = async () => {
@@ -23,4 +23,4 @@ const Login = () => {
     );
 };
 
-export { Login };
+export { Register };
