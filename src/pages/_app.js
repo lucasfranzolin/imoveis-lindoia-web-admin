@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import '../client/styles/global.scss';
+import '../styles/globals.scss';
 
 import { ChakraProvider } from '@chakra-ui/react';
 
-import { AuthProvider } from '../client/contexts/auth';
+import { AuthProvider } from '../contexts/auth';
 
 function MyApp({ Component, pageProps }) {
     return (

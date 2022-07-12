@@ -16,30 +16,35 @@ export const useFetch = (url) => {
 
     const _fetch = useCallback(
         async (method, data, config) => {
-            setResponse({
+            let newResponse = {
                 ...initialState,
                 loading: true,
-            });
+            };
+            setResponse(newResponse);
             try {
                 const res = await axios[method](url, data, config);
-                if (isMounted())
-                    setResponse((prevState) => ({
-                        ...prevState,
+                if (isMounted()) {
+                    newResponse = {
+                        ...newResponse,
                         data: res.data,
-                    }));
+                    };
+                }
             } catch (err) {
-                if (isMounted())
-                    setResponse((prevState) => ({
-                        ...prevState,
+                if (isMounted()) {
+                    newResponse = {
+                        ...newResponse,
                         error: err.response.data.message,
-                    }));
+                    };
+                }
             } finally {
-                if (isMounted())
-                    setResponse((prevState) => ({
-                        ...prevState,
+                if (isMounted()) {
+                    newResponse = {
+                        ...newResponse,
                         loading: false,
                         done: true,
-                    }));
+                    };
+                }
+                setResponse(newResponse);
             }
         },
         [isMounted, url]
