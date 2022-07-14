@@ -37,7 +37,7 @@ const ConfirmationDialog = ({ header, body, isOpen, onClose, onPositive }) => {
                     >
                         Não
                     </Button>
-                    <Button colorScheme="red" onClick={onPositive} ml={3}>
+                    <Button colorScheme="teal" onClick={onPositive} ml={3}>
                         Sim
                     </Button>
                 </AlertDialogFooter>

@@ -24,7 +24,7 @@ const validationSchema = Yup.object({
     phone: Yup.string().required('Telefone é obrigatório.'),
 });
 
-const CustomerForm = ({ error, data, loading, onSubmit, saving }) => {
+const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
     const initialValues = useMemo(
         () =>
             data
@@ -125,6 +125,7 @@ const CustomerForm = ({ error, data, loading, onSubmit, saving }) => {
                         <FormActions
                             isSubmitting={saving}
                             isLoaded={!loading}
+                            onCancel={onCancel}
                         />
                     </Stack>
                 )}
@@ -146,6 +147,7 @@ CustomerForm.propTypes = {
     saving: PropTypes.bool.isRequired,
     loading: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 };
 
 CustomerForm.defaultProps = {

@@ -34,7 +34,6 @@ const CustomerEdit = ({ id }) => {
                 duration: 3000,
                 isClosable: true,
             });
-            router.push('/customers');
         }
     }, [error]);
 
@@ -47,9 +46,13 @@ const CustomerEdit = ({ id }) => {
                 duration: 3000,
                 isClosable: true,
             });
-            router.push('/customers');
+            handleCancel();
         }
     }, [done, updateError]);
+
+    const handleCancel = () => {
+        router.push(`/customers/${id}/details`);
+    };
 
     const handleSubmit = (values, actions) => {
         updateCustomer(id, values);
@@ -61,9 +64,10 @@ const CustomerEdit = ({ id }) => {
             <Heading>Atualizar cliente</Heading>
             <Box bg="white" shadow="md" borderWidth={1} borderRadius="md" p={8}>
                 <CustomerForm
-                    error={error || updateError}
                     data={data}
+                    error={error || updateError}
                     loading={loading}
+                    onCancel={handleCancel}
                     onSubmit={handleSubmit}
                     saving={updating}
                 />

@@ -5,10 +5,6 @@ import PropTypes from 'prop-types';
 const FormActions = ({ isSubmitting, onCancel, isLoaded }) => {
     const { submitForm } = useFormikContext();
 
-    const handleCancel = () => {
-        if (typeof onCancel === 'function') onCancel();
-    };
-
     return (
         <VStack alignItems="flex-start" spacing={4}>
             <HStack>
@@ -24,7 +20,7 @@ const FormActions = ({ isSubmitting, onCancel, isLoaded }) => {
                     </Button>
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded}>
-                    <Button onClick={handleCancel} isDisabled={isSubmitting}>
+                    <Button onClick={onCancel} isDisabled={isSubmitting}>
                         Cancelar
                     </Button>
                 </Skeleton>
@@ -36,7 +32,7 @@ const FormActions = ({ isSubmitting, onCancel, isLoaded }) => {
 FormActions.propTypes = {
     isLoaded: PropTypes.bool.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func,
+    onCancel: PropTypes.func.isRequired,
 };
 
 FormActions.defaultProps = {
