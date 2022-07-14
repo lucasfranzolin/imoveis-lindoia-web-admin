@@ -4,27 +4,26 @@ import { customersService } from '../../../services/customers';
 import { errorHandler } from '../../../utils/error';
 
 export default async function handler(req, res) {
+    const { id } = req.query;
     switch (req.method) {
-        case 'POST':
+        case 'GET':
             try {
-                const { status } = await customersService.save(req.body);
+                const { data } = await customersService.get(id);
+                return res.json(data);
+            } catch (err) {
+                return errorHandler(err, res);
+            }
+        case 'PUT':
+            try {
+                const { status } = await customersService.update(id, req.body);
                 return res.status(status).send();
             } catch (err) {
                 return errorHandler(err, res);
             }
-        case 'GET':
+        case 'DELETE':
             try {
-                const { page, pageSize } = req.query;
-                const { data } = await customersService.paginate({
-                    page: parseInt(page) - 1,
-                    limit: parseInt(pageSize),
-                });
-                const { docs, pages, count } = data;
-                return res.json({
-                    rows: docs,
-                    totalItems: count,
-                    totalPages: pages,
-                });
+                const { status } = await customersService._delete(id);
+                return res.status(status).send();
             } catch (err) {
                 return errorHandler(err, res);
             }

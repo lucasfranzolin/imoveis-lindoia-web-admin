@@ -1,12 +1,7 @@
-:root {
-    --font-size: 1rem;
-}
-
 html,
 body,
 #__next {
     height: 100%;
     width: 100%;
-    font-size: var(--font-size);
     box-sizing: border-box;
 }
