@@ -1,11 +1,15 @@
 import {
     Box,
+    Button,
     Heading,
+    HStack,
+    Icon,
     Stack,
     useToast,
     useUpdateEffect,
     VStack,
 } from '@chakra-ui/react';
+import { PlusIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
@@ -66,13 +70,24 @@ const Customers = () => {
         }
     }, [error]);
 
+    const handleClickNew = () => router.push('/customers/new');
+
     const routeTo = (context) => (id) => {
         router.push(`${router.asPath}/${id}/${context}`);
     };
 
     return (
-        <Stack spacing={8}>
+        <Stack spacing={4}>
             <Heading>Clientes</Heading>
+            <HStack>
+                <Button
+                    colorScheme="teal"
+                    leftIcon={<Icon as={PlusIcon} />}
+                    onClick={handleClickNew}
+                >
+                    Novo
+                </Button>
+            </HStack>
             <Box bg="white" shadow="md" borderWidth={1} borderRadius="md" p={8}>
                 <Stack spacing={4}>
                     <DataTable

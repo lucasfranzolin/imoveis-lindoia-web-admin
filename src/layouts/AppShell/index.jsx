@@ -20,14 +20,6 @@ import { UserMenu } from './UserMenu';
 const AppShell = ({ children }) => {
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const canCreate = useMemo(
-        () => ROUTES.map((r) => r.href).includes(router.asPath),
-        [router.asPath]
-    );
-
-    const handleClickNew = () => {
-        router.push(`${router.asPath}/new`);
-    };
 
     return (
         <>
@@ -62,23 +54,9 @@ const AppShell = ({ children }) => {
                         />
                     </DarkMode>
                     <DesktopNav routes={ROUTES} />
-                    <Flex alignItems="center">
-                        <DarkMode>
-                            {canCreate && (
-                                <Button
-                                    variant="solid"
-                                    colorScheme="teal"
-                                    size="sm"
-                                    mr={8}
-                                    leftIcon={<Icon as={PlusIcon} />}
-                                    onClick={handleClickNew}
-                                >
-                                    Novo
-                                </Button>
-                            )}
-                            <UserMenu src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" />
-                        </DarkMode>
-                    </Flex>
+                    <DarkMode>
+                        <UserMenu src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" />
+                    </DarkMode>
                 </Flex>
                 <MobileNav isOpen={isOpen} routes={ROUTES} />
             </Flex>
