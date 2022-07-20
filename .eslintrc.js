@@ -47,5 +47,6 @@ module.exports = {
         quotes: ['error', 'single'],
         semi: ['error', 'always'],
         'no-undef': 'error',
+        'no-unused-vars': 'error',
     },
 };

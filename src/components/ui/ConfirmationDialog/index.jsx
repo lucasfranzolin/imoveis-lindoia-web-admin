@@ -12,12 +12,12 @@ import PropTypes from 'prop-types';
 import { useRef } from 'react';
 
 const ConfirmationDialog = ({ header, body, isOpen, onClose, onPositive }) => {
-    // const cancelRef = useRef();
+    const cancelRef = useRef();
 
     return (
         <AlertDialog
             isOpen={isOpen}
-            // leastDestructiveRef={cancelRef}
+            leastDestructiveRef={cancelRef}
             onClose={onClose}
             blockScrollOnMount={true}
             motionPreset="slideInBottom"
@@ -31,13 +31,10 @@ const ConfirmationDialog = ({ header, body, isOpen, onClose, onPositive }) => {
                 <AlertDialogCloseButton />
                 <AlertDialogBody>{body}</AlertDialogBody>
                 <AlertDialogFooter>
-                    <Button
-                        // ref={cancelRef}
-                        onClick={onClose}
-                    >
+                    <Button ref={cancelRef} onClick={onClose} variant="ghost">
                         Não
                     </Button>
-                    <Button colorScheme="teal" onClick={onPositive} ml={3}>
+                    <Button colorScheme="teal" onClick={onPositive} ml={4}>
                         Sim
                     </Button>
                 </AlertDialogFooter>

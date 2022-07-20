@@ -1,7 +1,7 @@
-import axios from 'axios';
-
+import { configHttp } from '../utils/http';
 import { getParams } from '../utils/pagination';
 
+const http = configHttp();
 const host = process.env.CORE_API;
 
 export const customersService = {
@@ -10,51 +10,35 @@ export const customersService = {
         const params = getParams(query);
         if (params) path += '?' + new URLSearchParams(params);
         const url = host + path;
-        return await axios.get(url);
+        return await http.get(url);
     },
-    save: async ({ email, phone, fullName }) => {
+    save: async (body) => {
         const path = '/customers';
         const url = host + path;
-        return await axios.post(
-            url,
-            {
-                email,
-                phone,
-                fullName,
+        return await http.post(url, body, {
+            headers: {
+                'x-change-agent': 'mock',
             },
-            {
-                headers: {
-                    'x-change-agent': 'mock',
-                },
-            }
-        );
+        });
     },
     get: async (id) => {
         const path = `/customers/${id}`;
         const url = host + path;
-        return await axios.get(url);
+        return await http.get(url);
     },
-    update: async (id, { email, phone, fullName }) => {
+    update: async (id, body) => {
         const path = `/customers/${id}`;
         const url = host + path;
-        return await axios.put(
-            url,
-            {
-                email,
-                phone,
-                fullName,
+        return await http.put(url, body, {
+            headers: {
+                'x-change-agent': 'mock',
             },
-            {
-                headers: {
-                    'x-change-agent': 'mock',
-                },
-            }
-        );
+        });
     },
     _delete: async (id) => {
         const path = `/customers/${id}`;
         const url = host + path;
-        return await axios.delete(url, {
+        return await http.delete(url, {
             headers: {
                 'x-change-agent': 'mock',
             },

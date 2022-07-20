@@ -1,13 +1,15 @@
-import axios from 'axios';
 import { useCallback, useState } from 'react';
 
+import { configHttp } from '../utils/http';
 import { useIsMounted } from './useIsMounted';
 
+const http = configHttp('client');
+
 const initialState = {
-    done: false,
+    data: null,
     error: null,
     loading: false,
-    data: null,
+    sucess: false,
 };
 
 export const useFetch = (url) => {
@@ -22,11 +24,12 @@ export const useFetch = (url) => {
             };
             setResponse(newResponse);
             try {
-                const res = await axios[method](url, data, config);
+                const res = await http[method](url, data, config);
                 if (isMounted()) {
                     newResponse = {
                         ...newResponse,
                         data: res.data,
+                        success: true,
                     };
                 }
             } catch (err) {
@@ -41,7 +44,6 @@ export const useFetch = (url) => {
                     newResponse = {
                         ...newResponse,
                         loading: false,
-                        done: true,
                     };
                 }
                 setResponse(newResponse);

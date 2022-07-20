@@ -1,16 +1,13 @@
 import {
     Box,
-    Button,
     DarkMode,
     Flex,
     Icon,
     IconButton,
     useDisclosure,
 } from '@chakra-ui/react';
-import { MenuIcon, PlusIcon, XIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
+import { MenuIcon, XIcon } from '@heroicons/react/solid';
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
 
 import { ROUTES } from './constants';
 import { DesktopNav } from './DesktopNav';
@@ -18,11 +15,10 @@ import { MobileNav } from './MobileNav';
 import { UserMenu } from './UserMenu';
 
 const AppShell = ({ children }) => {
-    const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
-        <>
+        <Box bg="gray.100">
             <Flex
                 direction="column"
                 alignItems="center"
@@ -30,9 +26,10 @@ const AppShell = ({ children }) => {
                 bg="gray.900"
                 textColor="white"
                 px={8}
+                py={4}
+                fontSize="lg"
             >
                 <Flex
-                    h={16}
                     alignItems="center"
                     justifyContent="space-between"
                     maxW="6xl"
@@ -60,17 +57,12 @@ const AppShell = ({ children }) => {
                 </Flex>
                 <MobileNav isOpen={isOpen} routes={ROUTES} />
             </Flex>
-            <Flex
-                direction="column"
-                alignItems="center"
-                justifyContent="flex-start"
-                p={8}
-            >
-                <Box maxW="6xl" w="full">
+            <Box p={8}>
+                <Box maxW="6xl" w="full" mx="auto">
                     {children}
                 </Box>
-            </Flex>
-        </>
+            </Box>
+        </Box>
     );
 };
 

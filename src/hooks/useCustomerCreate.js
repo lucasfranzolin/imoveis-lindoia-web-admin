@@ -1,17 +1,18 @@
-import { useCallback } from 'react';
+import { useUpdateEffect } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { useFetch } from './useFetch';
 
 export const useCustomerCreate = () => {
+    const [body, setBody] = useState(null);
     const [response, fetch] = useFetch('/api/customers');
 
-    const submit = useCallback(
-        (values, actions) => {
-            fetch('post', values);
-            actions.setSubmitting(false);
-        },
-        [fetch]
-    );
+    useUpdateEffect(() => {
+        if (!!body) {
+            fetch('post', body);
+            setBody(null);
+        }
+    }, [body]);
 
-    return [response, submit];
+    return [response, setBody];
 };

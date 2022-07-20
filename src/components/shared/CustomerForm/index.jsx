@@ -12,32 +12,22 @@ import {
 import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
-import * as Yup from 'yup';
 
-import { FormActions } from '../ui/FormActions';
-
-const validationSchema = Yup.object({
-    fullName: Yup.string().required('Nome é obrigatório.'),
-    email: Yup.string()
-        .email('Endereço de email inválido.')
-        .required('Email é obrigatório.'),
-    phone: Yup.string().required('Telefone é obrigatório.'),
-});
+import { FormActions } from '../../ui/FormActions';
+import { MaskedInput } from '../../ui/MaskedInput';
+import { defaultValues, validationSchema } from './utils';
 
 const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
     const initialValues = useMemo(
         () =>
             data
                 ? {
+                      cpf: data.props.cpf,
                       email: data.props.email,
                       fullName: data.props.fullName,
                       phone: data.props.phone,
                   }
-                : {
-                      email: '',
-                      fullName: '',
-                      phone: '',
-                  },
+                : defaultValues,
         [data]
     );
 
@@ -107,12 +97,12 @@ const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                                 formik.errors.phone && formik.touched.phone
                             }
                         >
-                            <FormLabel htmlFor="phone">Telefone</FormLabel>
+                            <FormLabel htmlFor="phone">Celular</FormLabel>
                             <Skeleton isLoaded={!loading}>
-                                <Input
+                                <MaskedInput
                                     name="phone"
                                     id="phone"
-                                    type="phone"
+                                    mask="phone"
                                     value={formik.values.phone}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -120,6 +110,24 @@ const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                             </Skeleton>
                             <FormErrorMessage>
                                 {formik.errors.phone}
+                            </FormErrorMessage>
+                        </FormControl>
+                        <FormControl
+                            isInvalid={formik.errors.cpf && formik.touched.cpf}
+                        >
+                            <FormLabel htmlFor="cpf">CPF</FormLabel>
+                            <Skeleton isLoaded={!loading}>
+                                <MaskedInput
+                                    name="cpf"
+                                    id="cpf"
+                                    mask="cpf"
+                                    value={formik.values.cpf}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                />
+                            </Skeleton>
+                            <FormErrorMessage>
+                                {formik.errors.cpf}
                             </FormErrorMessage>
                         </FormControl>
                         <FormActions
@@ -137,6 +145,7 @@ const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
 CustomerForm.propTypes = {
     data: PropTypes.shape({
         props: PropTypes.shape({
+            cpf: PropTypes.string,
             email: PropTypes.string,
             fullName: PropTypes.string,
             phone: PropTypes.string,

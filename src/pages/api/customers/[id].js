@@ -8,8 +8,8 @@ export default async function handler(req, res) {
     switch (req.method) {
         case 'GET':
             try {
-                const { data } = await customersService.get(id);
-                return res.json(data);
+                const { data, status } = await customersService.get(id);
+                return res.status(status).json(data);
             } catch (err) {
                 return errorHandler(err, res);
             }

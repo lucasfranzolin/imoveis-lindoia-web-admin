@@ -1,33 +1,41 @@
 import {
     Box,
-    Button,
     Icon,
     IconButton,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
     Spinner,
     Table,
     TableCaption,
     TableContainer,
     Tbody,
     Td,
+    Text,
     Th,
     Thead,
     Tr,
     useDisclosure,
 } from '@chakra-ui/react';
-import { PencilIcon, TrashIcon } from '@heroicons/react/solid';
+import {
+    ArrowDownIcon,
+    ArrowUpIcon,
+    PencilIcon,
+    TrashIcon,
+} from '@heroicons/react/solid';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 
 import { ConfirmationDialog } from '../ui/ConfirmationDialog';
 
-const DataTable = ({ rows, loading, onDelete, onEdit, onClickRow }) => {
+const DataTable = ({
+    header,
+    loading,
+    onClickRow,
+    onDelete,
+    onEdit,
+    onSort,
+    order,
+    rows,
+    sortBy,
+}) => {
     const deleteRef = useRef();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -49,16 +57,51 @@ const DataTable = ({ rows, loading, onDelete, onEdit, onClickRow }) => {
         onDelete(deleteRef.current.uuid);
     };
 
+    const handleSort = (accessor) => () => onSort(accessor);
+
     return (
         <>
             <TableContainer>
                 <Table size="sm">
                     <Thead>
                         <Tr>
-                            <Th>Nome</Th>
-                            <Th>Email</Th>
-                            <Th>Telefone</Th>
-                            <Th isNumeric>Ações</Th>
+                            {header.map((th) => (
+                                <Th
+                                    key={`th-${th.label}`}
+                                    display="inline-flex"
+                                    alignItems="center"
+                                    w="full"
+                                    textColor={
+                                        th.accessor === sortBy
+                                            ? 'teal.500'
+                                            : undefined
+                                    }
+                                >
+                                    <Text>{th.label}</Text>
+                                    <IconButton
+                                        textColor="inherit"
+                                        variant="unstyled"
+                                        colorScheme={
+                                            th.accessor === sortBy
+                                                ? 'teal'
+                                                : 'gray'
+                                        }
+                                        isRound
+                                        size="xs"
+                                        ml={1}
+                                        icon={
+                                            <Icon
+                                                as={
+                                                    order > 0
+                                                        ? ArrowDownIcon
+                                                        : ArrowUpIcon
+                                                }
+                                            />
+                                        }
+                                        onClick={handleSort(th.accessor)}
+                                    />
+                                </Th>
+                            ))}
                         </Tr>
                     </Thead>
                     <Tbody>
@@ -84,9 +127,13 @@ const DataTable = ({ rows, loading, onDelete, onEdit, onClickRow }) => {
                                         textColor: 'teal.500',
                                     }}
                                 >
-                                    <Td>{row.props.fullName}</Td>
-                                    <Td>{row.props.email}</Td>
-                                    <Td>{row.props.phone}</Td>
+                                    {header.map((th, index) => {
+                                        const key = `${row.uuid}-td-${index}`;
+                                        const text = th.format
+                                            ? th.render(row.props[th.accessor])
+                                            : row.props[th.accessor];
+                                        return <Td key={key}>{text}</Td>;
+                                    })}
                                     <Td isNumeric>
                                         <IconButton
                                             variant="ghost"
@@ -125,11 +172,21 @@ const DataTable = ({ rows, loading, onDelete, onEdit, onClickRow }) => {
 };
 
 DataTable.propTypes = {
+    header: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            accessor: PropTypes.string.isRequired,
+            render: PropTypes.func,
+        })
+    ).isRequired,
     loading: PropTypes.bool.isRequired,
-    rows: PropTypes.array.isRequired,
+    onClickRow: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
-    onClickRow: PropTypes.func.isRequired,
+    onSort: PropTypes.func.isRequired,
+    order: PropTypes.oneOf([1, -1]).isRequired,
+    rows: PropTypes.array.isRequired,
+    sortBy: PropTypes.string.isRequired,
 };
 
 export { DataTable };

@@ -22,7 +22,7 @@ const Pagination = ({
 
     return (
         <HStack spacing={4} fontSize="sm">
-            <Text>
+            <Text fontWeight="bold">
                 Total de {subject}: {totalItems}
             </Text>
             <HStack spacing={4} flex={1} justifyContent="flex-end">

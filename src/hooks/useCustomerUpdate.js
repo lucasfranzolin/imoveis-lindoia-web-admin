@@ -1,5 +1,5 @@
 import { useUpdateEffect } from '@chakra-ui/react';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { useFetch } from './useFetch';
 
@@ -16,9 +16,9 @@ export const useCustomerUpdate = () => {
         }
     }, [id, body]);
 
-    const update = (id, values) => {
-        setId(id);
-        setBody(values);
+    const update = (_id, _body) => {
+        setId(_id);
+        setBody(_body);
     };
 
     return [response, update];

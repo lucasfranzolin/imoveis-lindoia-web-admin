@@ -11,10 +11,10 @@ const MobileNav = ({ isOpen, routes }) => {
 
     return (
         <Box pt={2} pb={4} display={{ md: 'none' }}>
-            <Stack as="nav" spacing={2}>
+            <Stack as="nav" spacing={4}>
                 {routes.map((route) => (
                     <NavItem
-                        key={route}
+                        key={route.href}
                         href={route.href}
                         isActive={router.asPath.startsWith(route.href)}
                     >

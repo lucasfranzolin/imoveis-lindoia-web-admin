@@ -9,7 +9,7 @@ const DesktopNav = ({ routes }) => {
     const router = useRouter();
 
     return (
-        <HStack spacing={8} alignItems="center">
+        <HStack spacing={4} alignItems="center">
             <Logo />
             <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
                 {routes.map((route) => (

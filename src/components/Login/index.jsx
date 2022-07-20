@@ -51,7 +51,7 @@ const Login = () => {
             justifyContent="center"
             h="full"
         >
-            <Stack spacing={6} minW="400px">
+            <Stack spacing={4} minW="400px">
                 <Stack align="center">
                     <Heading fontSize="4xl" textAlign="center">
                         Olá corretor,
@@ -62,8 +62,6 @@ const Login = () => {
                 </Stack>
                 <Stack
                     as="form"
-                    boxShadow="base"
-                    borderWidth={1}
                     p={8}
                     rounded="md"
                     spacing={4}

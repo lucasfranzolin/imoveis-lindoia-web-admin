@@ -5,7 +5,7 @@ import { useFetch } from './useFetch';
 
 export const useCustomerDelete = () => {
     const [id, setId] = useState(null);
-    const [{ loading, done, error }, fetch] = useFetch(`/api/customers/${id}`);
+    const [response, fetch] = useFetch(`/api/customers/${id}`);
 
     useUpdateEffect(() => {
         if (!!id) {
@@ -14,12 +14,5 @@ export const useCustomerDelete = () => {
         }
     }, [id]);
 
-    return [
-        {
-            loading,
-            success: done && !error,
-            error,
-        },
-        setId,
-    ];
+    return [response, setId];
 };

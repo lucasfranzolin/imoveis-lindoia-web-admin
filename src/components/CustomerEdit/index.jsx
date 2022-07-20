@@ -17,7 +17,7 @@ const CustomerEdit = ({ id }) => {
     const router = useRouter();
     const toast = useToast();
     const [{ data, error, loading }, getDetails] = useCustomerDetails();
-    const [{ done, error: updateError, loading: updating }, updateCustomer] =
+    const [{ success, error: updateError, loading: updating }, updateCustomer] =
         useCustomerUpdate();
 
     useEffectOnce(() => {
@@ -25,20 +25,7 @@ const CustomerEdit = ({ id }) => {
     });
 
     useUpdateEffect(() => {
-        if (!!error) {
-            toast({
-                position: 'top',
-                title: 'Problema ao carregar dados do cliente.',
-                description: error,
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-        }
-    }, [error]);
-
-    useUpdateEffect(() => {
-        if (done && !updateError) {
+        if (success) {
             toast({
                 position: 'top',
                 description: 'Cliente atualizado com sucesso.',
@@ -48,7 +35,7 @@ const CustomerEdit = ({ id }) => {
             });
             handleCancel();
         }
-    }, [done, updateError]);
+    }, [success]);
 
     const handleCancel = () => {
         router.push(`/customers/${id}/details`);
@@ -60,9 +47,9 @@ const CustomerEdit = ({ id }) => {
     };
 
     return (
-        <Stack spacing={8}>
+        <Stack spacing={4}>
             <Heading>Atualizar cliente</Heading>
-            <Box bg="white" shadow="md" borderWidth={1} borderRadius="md" p={8}>
+            <Box bg="white" borderWidth={1} borderRadius="md" p={8}>
                 <CustomerForm
                     data={data}
                     error={error || updateError}
