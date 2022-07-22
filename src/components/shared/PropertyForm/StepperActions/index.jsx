@@ -2,12 +2,14 @@ import { Button, HStack } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 
-const StepperActions = ({ isLastStep, onPrevious }) => {
+const StepperActions = ({ isFirstStep, isLastStep, onPrevious }) => {
     const { submitForm } = useFormikContext();
 
     return (
-        <HStack spacing={4}>
-            <Button onClick={onPrevious}>Voltar</Button>
+        <HStack spacing={4} alignSelf="end">
+            <Button onClick={onPrevious}>
+                {isFirstStep ? 'Cancelar' : 'Anterior'}
+            </Button>
             <Button colorScheme="teal" onClick={submitForm}>
                 {isLastStep ? 'Finalizar' : 'Próximo'}
             </Button>
@@ -16,11 +18,13 @@ const StepperActions = ({ isLastStep, onPrevious }) => {
 };
 
 StepperActions.propTypes = {
-    isLastStep: PropTypes.bool.isRequired,
+    isFirstStep: PropTypes.bool,
+    isLastStep: PropTypes.bool,
     onPrevious: PropTypes.func.isRequired,
 };
 
 StepperActions.defaultProps = {
+    isFirstStep: false,
     isLastStep: false,
 };
 

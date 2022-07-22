@@ -9,15 +9,8 @@ const NavItem = ({ href, children, isActive }) => {
                 px={4}
                 py={1}
                 rounded="md"
-                _hover={
-                    !isActive
-                        ? {
-                              textDecoration: 'none',
-                              bg: 'gray.700',
-                          }
-                        : {}
-                }
-                bg={isActive ? 'gray.700' : null}
+                _hover={{ textDecoration: 'none' }}
+                textColor={isActive ? 'teal.500' : null}
             >
                 {children}
             </Link>

@@ -47,18 +47,26 @@ const CustomerEdit = ({ id }) => {
     };
 
     return (
-        <Stack spacing={4}>
-            <Heading>Atualizar cliente</Heading>
-            <Box bg="white" borderWidth={1} borderRadius="md" p={8}>
-                <CustomerForm
-                    data={data}
-                    error={error || updateError}
-                    loading={loading}
-                    onCancel={handleCancel}
-                    onSubmit={handleSubmit}
-                    saving={updating}
-                />
-            </Box>
+        <Stack
+            spacing={4}
+            bg="white"
+            borderWidth={1}
+            boxShadow="md"
+            borderRadius="md"
+            px={6}
+            py={4}
+        >
+            <Heading as="h4" size="md">
+                Atualizar cliente
+            </Heading>
+            <CustomerForm
+                data={data}
+                error={error || updateError}
+                loading={loading}
+                onCancel={handleCancel}
+                onSubmit={handleSubmit}
+                saving={updating}
+            />
         </Stack>
     );
 };

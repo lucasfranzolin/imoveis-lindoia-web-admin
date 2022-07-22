@@ -7,10 +7,10 @@ import {
 import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 
-import { useEffectOnce } from '../../../../hooks/useEffectOnce';
-import { usePropertyPurposes } from '../../../../hooks/usePropertyPurposes';
-import { usePropertyTypes } from '../../../../hooks/usePropertyTypes';
-import { SelectAsync } from '../../../ui/SelectAsync';
+import { useEffectOnce } from '../../../../../hooks/useEffectOnce';
+import { usePropertyPurposes } from '../../../../../hooks/usePropertyPurposes';
+import { usePropertyTypes } from '../../../../../hooks/usePropertyTypes';
+import { SelectAsync } from '../../../../ui/SelectAsync';
 import { validationSchema } from './utils';
 
 const StepFeatures = ({ initialValues, children, onSubmit }) => {
@@ -23,6 +23,7 @@ const StepFeatures = ({ initialValues, children, onSubmit }) => {
 
     useEffectOnce(() => {
         getPurposes();
+        getTypes(initialValues.purpose);
     });
 
     const handleChangePurpose = (formik) => (e) => {
@@ -115,13 +116,6 @@ StepFeatures.propTypes = {
     }),
     onSubmit: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
-};
-
-StepFeatures.defaultProps = {
-    initialValues: {
-        purpose: '',
-        type: '',
-    },
 };
 
 export { StepFeatures };

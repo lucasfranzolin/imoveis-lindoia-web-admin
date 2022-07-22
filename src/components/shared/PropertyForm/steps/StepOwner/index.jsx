@@ -7,9 +7,9 @@ import {
 import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 
-import { useCustomers } from '../../../../hooks/useCustomers';
-import { useEffectOnce } from '../../../../hooks/useEffectOnce';
-import { SelectAsync } from '../../../ui/SelectAsync';
+import { useCustomers } from '../../../../../hooks/useCustomers';
+import { useEffectOnce } from '../../../../../hooks/useEffectOnce';
+import { SelectAsync } from '../../../../ui/SelectAsync';
 import { validationSchema } from './utils';
 
 const StepOwner = ({ initialValues, children, onSubmit }) => {
@@ -77,16 +77,10 @@ const StepOwner = ({ initialValues, children, onSubmit }) => {
 
 StepOwner.propTypes = {
     initialValues: PropTypes.shape({
-        uuid: PropTypes.string.isRequired,
+        ownerId: PropTypes.string.isRequired,
     }),
     onSubmit: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
-};
-
-StepOwner.defaultProps = {
-    initialValues: {
-        uuid: '',
-    },
 };
 
 export { StepOwner };

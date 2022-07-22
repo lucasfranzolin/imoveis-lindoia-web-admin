@@ -1,4 +1,4 @@
-import { Button, Heading, HStack, Icon, Stack } from '@chakra-ui/react';
+import { Box, Button, Heading, HStack, Icon, Stack } from '@chakra-ui/react';
 import { PlusIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 
@@ -8,16 +8,23 @@ const Properties = () => {
     const handleClickNew = () => router.push('/properties/new');
 
     return (
-        <Stack spacing={4}>
-            <Heading>Imoveis</Heading>
-            <Stack
-                bg="white"
-                borderWidth={1}
-                borderRadius="md"
-                p={8}
-                spacing={4}
+        <Stack
+            spacing={4}
+            bg="white"
+            borderWidth={1}
+            boxShadow="md"
+            borderRadius="md"
+        >
+            <HStack
+                px={6}
+                pt={4}
+                alignItems="flex-start"
+                justifyContent="space-between"
             >
-                <HStack>
+                <Heading as="h4" size="md">
+                    Imoveis
+                </Heading>
+                <HStack alignItems="center" spacing={4}>
                     <Button
                         colorScheme="teal"
                         leftIcon={<Icon as={PlusIcon} />}
@@ -26,8 +33,8 @@ const Properties = () => {
                         Novo
                     </Button>
                 </HStack>
-                {/* rest */}
-            </Stack>
+            </HStack>
+            <Box></Box>
         </Stack>
     );
 };

@@ -10,11 +10,11 @@ import {
 import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 
-import { useEffectOnce } from '../../../../hooks/useEffectOnce';
-import { useLocalityCities } from '../../../../hooks/useLocalityCities';
-import { useLocalityStates } from '../../../../hooks/useLocalityStates';
-import { configHttp } from '../../../../utils/http';
-import { SelectAsync } from '../../../ui/SelectAsync';
+import { useEffectOnce } from '../../../../../hooks/useEffectOnce';
+import { useLocalityCities } from '../../../../../hooks/useLocalityCities';
+import { useLocalityStates } from '../../../../../hooks/useLocalityStates';
+import { configHttp } from '../../../../../utils/http';
+import { SelectAsync } from '../../../../ui/SelectAsync';
 import { validationSchema } from './utils';
 
 const http = configHttp('client');
@@ -29,6 +29,7 @@ const StepAddress = ({ initialValues, children, onSubmit }) => {
 
     useEffectOnce(() => {
         getStates();
+        getCities(initialValues.state);
     });
 
     const handleBlurZip = (formik) => (e) => {
@@ -244,26 +245,16 @@ const StepAddress = ({ initialValues, children, onSubmit }) => {
 
 StepAddress.propTypes = {
     initialValues: PropTypes.shape({
-        state: PropTypes.string.isRequired,
         city: PropTypes.string.isRequired,
-        street: PropTypes.string.isRequired,
-        number: PropTypes.string.isRequired,
-        zip: PropTypes.string.isRequired,
         complement: PropTypes.string,
+        district: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+        state: PropTypes.string.isRequired,
+        street: PropTypes.string.isRequired,
+        zip: PropTypes.string.isRequired,
     }),
     onSubmit: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
-};
-
-StepAddress.defaultProps = {
-    initialValues: {
-        state: '',
-        city: '',
-        street: '',
-        number: '',
-        zip: '',
-        complement: '',
-    },
 };
 
 export { StepAddress };

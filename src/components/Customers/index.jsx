@@ -3,24 +3,32 @@ import {
     Heading,
     HStack,
     Icon,
+    Input,
+    InputGroup,
+    InputLeftElement,
     Stack,
+    useDisclosure,
     useToast,
 } from '@chakra-ui/react';
-import { PlusIcon } from '@heroicons/react/solid';
+import { PlusIcon, SearchIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useCustomerDelete } from '../../hooks/useCustomerDelete';
 import { useCustomers } from '../../hooks/useCustomers';
+import { useDebounce } from '../../hooks/useDebounce';
 import { usePagination } from '../../hooks/usePagination';
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
+import { ConfirmationDialog } from '../ui/ConfirmationDialog';
+import { DataTable } from '../ui/DataTable';
 import { Pagination } from '../ui/Pagination';
-import { DataTable } from './DataTable';
 
 const Customers = () => {
     const router = useRouter();
     const toast = useToast();
-    const toastIdRef = useRef();
+    const deleteRef = useRef();
+    const [search, setSearch] = useState('');
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const { page, pageSize, order, sortBy, onNavigate, setPageSize, sort } =
         usePagination('fullName');
     const [{ data, loading }, paginate] = useCustomers();
@@ -44,7 +52,6 @@ const Customers = () => {
                 duration: 3000,
                 isClosable: true,
             });
-            toast.close(toastIdRef.current);
             paginate({ page, pageSize });
         }
     }, [success]);
@@ -59,59 +66,101 @@ const Customers = () => {
                 duration: 3000,
                 isClosable: true,
             });
-            toast.close(toastIdRef.current);
         }
     }, [error]);
 
+    useDebounce(
+        () => {
+            console.log('search', search);
+        },
+        500,
+        [search]
+    );
+
     const handleClickNew = () => router.push('/customers/new');
 
-    const routeTo = (context) => (id) =>
-        router.push(`${router.asPath}/${id}/${context}`);
+    const routeTo = (context) => (row) =>
+        router.push(`${router.asPath}/${row.uuid}/${context}`);
+
+    const handleDelete = (row) => {
+        deleteRef.current = row;
+        onOpen();
+    };
+
+    const handlePositive = () => {
+        onClose();
+        _delete(deleteRef.current.uuid);
+    };
 
     return (
-        <Stack spacing={4}>
-            <Heading>Clientes</Heading>
+        <>
             <Stack
+                spacing={4}
                 bg="white"
                 borderWidth={1}
+                boxShadow="md"
                 borderRadius="md"
-                p={8}
-                spacing={4}
             >
-                <HStack>
-                    <Button
-                        colorScheme="teal"
-                        leftIcon={<Icon as={PlusIcon} />}
-                        onClick={handleClickNew}
-                    >
-                        Novo
-                    </Button>
+                <HStack
+                    px={6}
+                    pt={4}
+                    alignItems="flex-start"
+                    justifyContent="space-between"
+                >
+                    <Heading as="h4" size="md">
+                        Clientes
+                    </Heading>
+                    <HStack alignItems="center" spacing={4}>
+                        <Button
+                            colorScheme="teal"
+                            leftIcon={<Icon as={PlusIcon} />}
+                            onClick={handleClickNew}
+                        >
+                            Novo
+                        </Button>
+                        <InputGroup>
+                            <InputLeftElement pointerEvents="none">
+                                <Icon as={SearchIcon} color="gray.300" />
+                            </InputLeftElement>
+                            <Input
+                                type="text"
+                                placeholder="Buscar"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </InputGroup>
+                    </HStack>
                 </HStack>
                 <DataTable
                     header={[
                         {
                             label: 'Nome',
                             accessor: 'fullName',
+                            sortable: true,
                         },
                         {
                             label: 'Email',
                             accessor: 'email',
+                            sortable: false,
                         },
                         {
                             label: 'Telefone',
                             accessor: 'phone',
+                            sortable: false,
                         },
                     ]}
                     loading={loading}
                     onClickRow={routeTo('details')}
-                    onDelete={_delete}
                     onEdit={routeTo('edit')}
+                    onDelete={handleDelete}
                     onSort={sort}
                     order={order}
                     rows={data.rows}
                     sortBy={sortBy}
                 />
                 <Pagination
+                    px={6}
+                    pb={4}
                     subject="clientes"
                     totalItems={data.totalItems}
                     totalPages={data.totalPages}
@@ -120,7 +169,15 @@ const Customers = () => {
                     onChange={setPageSize}
                 />
             </Stack>
-        </Stack>
+            <ConfirmationDialog
+                body="Você não pode desfazer essa ação depois."
+                header={`Apagar cliente '${deleteRef.current?.props.fullName}'?`}
+                isOpen={isOpen}
+                onClose={onClose}
+                onNegative={onClose}
+                onPositive={handlePositive}
+            />
+        </>
     );
 };
 

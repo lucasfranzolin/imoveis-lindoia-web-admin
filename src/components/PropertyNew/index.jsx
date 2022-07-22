@@ -1,4 +1,4 @@
-import { Box, Heading, Stack, useToast } from '@chakra-ui/react';
+import { Heading, Stack, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 import { usePropertyCreate } from '../../hooks/usePropertyCreate';
@@ -25,23 +25,30 @@ const PropertyNew = () => {
 
     const handleCancel = () => router.push('/properties');
 
-    const handleSubmit = (values, actions) => {
+    const handleSubmit = (values) => {
         submit(values);
-        actions.setSubmitting(false);
     };
 
     return (
-        <Stack spacing={4}>
-            <Heading>Cadastrar novo imóvel</Heading>
-            <Box bg="white" borderWidth={1} borderRadius="md" p={8}>
-                <PropertyForm
-                    error={error}
-                    success={success}
-                    saving={loading}
-                    onSubmit={handleSubmit}
-                    onCancel={handleCancel}
-                />
-            </Box>
+        <Stack
+            spacing={4}
+            bg="white"
+            borderWidth={1}
+            boxShadow="md"
+            borderRadius="md"
+            px={6}
+            py={4}
+        >
+            <Heading as="h4" size="md">
+                Cadastrar novo imovel
+            </Heading>
+            <PropertyForm
+                error={error}
+                success={success}
+                saving={loading}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+            />
         </Stack>
     );
 };

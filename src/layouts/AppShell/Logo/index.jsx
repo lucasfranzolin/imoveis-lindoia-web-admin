@@ -13,7 +13,7 @@ const Logo = () => {
                 title="Voltar ao inicio"
             >
                 <Text fontWeight="bold">imoveis</Text>
-                <Text textColor="teal.200">lindoia</Text>
+                <Text textColor="teal.500">lindoia</Text>
             </Link>
         </NextLink>
     );

@@ -140,17 +140,4 @@ StepAdvertise.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-StepAdvertise.defaultProps = {
-    initialValues: {
-        rent: {
-            isAnnounced: false,
-            value: 0,
-        },
-        sale: {
-            isAnnounced: false,
-            value: 0,
-        },
-    },
-};
-
 export { StepAdvertise };

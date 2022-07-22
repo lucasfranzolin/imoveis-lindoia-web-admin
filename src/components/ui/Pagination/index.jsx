@@ -11,6 +11,7 @@ const Pagination = ({
     totalPages,
     onNavigate,
     onChange,
+    ...rest
 }) => {
     const handleNavigate = (navigateTo) => () => {
         onNavigate(navigateTo);
@@ -21,13 +22,13 @@ const Pagination = ({
     };
 
     return (
-        <HStack spacing={4} fontSize="sm">
+        <HStack spacing={4} {...rest}>
             <Text fontWeight="bold">
                 Total de {subject}: {totalItems}
             </Text>
             <HStack spacing={4} flex={1} justifyContent="flex-end">
                 <Box>
-                    <Select size="sm" onChange={handleChange} borderRadius="md">
+                    <Select onChange={handleChange} borderRadius="md">
                         {OPTIONS.map((opt) => (
                             <option key={`pagination-opt-${opt}`} value={opt}>
                                 {opt}
@@ -36,8 +37,7 @@ const Pagination = ({
                     </Select>
                 </Box>
                 <IconButton
-                    isRound
-                    size="sm"
+                    variant="unstyled"
                     icon={<Icon as={ChevronLeftIcon} />}
                     onClick={handleNavigate(page - 1)}
                     title="Anterior"
@@ -47,8 +47,7 @@ const Pagination = ({
                     {page} de {totalPages}
                 </Text>
                 <IconButton
-                    isRound
-                    size="sm"
+                    variant="ghost"
                     icon={<Icon as={ChevronRightIcon} />}
                     onClick={handleNavigate(page + 1)}
                     title="Próxima"

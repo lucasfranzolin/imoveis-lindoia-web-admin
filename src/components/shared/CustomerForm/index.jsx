@@ -1,5 +1,6 @@
 import {
     Alert,
+    AlertDescription,
     AlertIcon,
     AlertTitle,
     FormControl,
@@ -37,7 +38,7 @@ const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                 <Alert status="error">
                     <AlertIcon />
                     <AlertTitle>Erro!</AlertTitle>
-                    {error}
+                    <AlertDescription>{error}</AlertDescription>
                 </Alert>
             )}
             <Formik

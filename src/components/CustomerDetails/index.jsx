@@ -1,5 +1,6 @@
 import {
     Heading,
+    HStack,
     Stack,
     Text,
     useDisclosure,
@@ -51,29 +52,34 @@ const CustomerDetails = ({ id }) => {
 
     return (
         <>
-            <Stack spacing={4}>
-                <Heading>Detalhes do cliente</Heading>
-                <Stack
-                    spacing={4}
-                    bg="white"
-                    borderWidth={1}
-                    borderRadius="md"
-                    p={8}
-                >
+            <Stack
+                spacing={4}
+                bg="white"
+                borderWidth={1}
+                boxShadow="md"
+                borderRadius="md"
+                px={6}
+                py={4}
+            >
+                <HStack alignItems="flex-start" justifyContent="space-between">
+                    <Heading as="h4" size="md">
+                        Detalhes do cliente
+                    </Heading>
                     <DetailsActions onEdit={handleEdit} onDelete={onOpen} />
-                    <DetailItem label="Nome" isLoaded={!loading}>
-                        <Text>{data?.props.fullName}</Text>
-                    </DetailItem>
-                    <DetailItem label="Email" isLoaded={!loading}>
-                        <Text>{data?.props.email}</Text>
-                    </DetailItem>
-                    <DetailItem label="Telefone" isLoaded={!loading}>
-                        <Text>{data?.props.phone}</Text>
-                    </DetailItem>
-                    <DetailItem label="CPF" isLoaded={!loading}>
-                        <Text>{data?.props.cpf}</Text>
-                    </DetailItem>
-                </Stack>
+                </HStack>
+
+                <DetailItem label="Nome" isLoaded={!loading}>
+                    <Text>{data?.props.fullName}</Text>
+                </DetailItem>
+                <DetailItem label="Email" isLoaded={!loading}>
+                    <Text>{data?.props.email}</Text>
+                </DetailItem>
+                <DetailItem label="Telefone" isLoaded={!loading}>
+                    <Text>{data?.props.phone}</Text>
+                </DetailItem>
+                <DetailItem label="CPF" isLoaded={!loading}>
+                    <Text>{data?.props.cpf}</Text>
+                </DetailItem>
             </Stack>
             <ConfirmationDialog
                 body="Você não pode desfazer essa ação depois."

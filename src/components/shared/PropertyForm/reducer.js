@@ -1,12 +1,5 @@
 import * as types from './types';
 
-export const initialState = {
-    [types.ADDRESS]: null,
-    [types.ADVERTISE]: null,
-    [types.FEATURES]: null,
-    [types.OWNER]: null,
-};
-
 export function reducer(state, { type, payload }) {
     switch (type) {
         case types.ADDRESS:
@@ -19,6 +12,11 @@ export function reducer(state, { type, payload }) {
                 ...state,
                 [types.ADVERTISE]: payload,
             };
+        case types.LEGAL:
+            return {
+                ...state,
+                [types.LEGAL]: payload,
+            };
         case types.FEATURES:
             return {
                 ...state,
@@ -29,7 +27,9 @@ export function reducer(state, { type, payload }) {
                 ...state,
                 [types.OWNER]: payload,
             };
+        case types.RESET:
+            return payload;
         default:
-            throw new Error();
+            throw new Error(`Can't dispatch type '${type}'`);
     }
 }
