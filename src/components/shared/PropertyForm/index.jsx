@@ -14,10 +14,10 @@ import { useSteps } from '../../../hooks/useSteps';
 import { STEPS } from './constants';
 import { reducer } from './reducer';
 import { Stepper } from './Stepper';
-import { StepperActions } from './StepperActions';
 import { StepAddress } from './steps/StepAddress';
 import { StepAdvertise } from './steps/StepAdvertise';
 import { StepFeatures } from './steps/StepFeatures';
+import { StepFiles } from './steps/StepFiles';
 import { StepLegal } from './steps/StepLegal';
 import { StepOwner } from './steps/StepOwner';
 import { StepReview } from './steps/StepReview';
@@ -25,7 +25,7 @@ import * as types from './types';
 import { initState } from './utils';
 
 const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
-    const { activeStep, nextStep, prevStep } = useSteps(0);
+    const { activeStep, nextStep, prevStep } = useSteps(4);
     const [form, dispatch] = useReducer(reducer, initState(data));
 
     const handleSubmit = (type) => (payload) => {
@@ -50,6 +50,7 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
             ...form[types.OWNER],
             ...form[types.FEATURES],
             ...form[types.ADVERTISE],
+            ...form[types.LEGAL],
         };
         onSubmit(body);
     }, [form, onSubmit]);
@@ -89,6 +90,14 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                     />
                 );
             case 4:
+                return (
+                    <StepFiles
+                        initialValues={form[types.FEATURES]}
+                        onSubmit={handleSubmit(types.FEATURES)}
+                        onPrevious={prevStep}
+                    />
+                );
+            case 5:
                 return (
                     <StepAdvertise
                         initialValues={form[types.ADVERTISE]}

@@ -27,6 +27,11 @@ export function reducer(state, { type, payload }) {
                 ...state,
                 [types.OWNER]: payload,
             };
+        case types.FILES:
+            return {
+                ...state,
+                [types.FILES]: payload,
+            };
         case types.RESET:
             return payload;
         default:

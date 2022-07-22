@@ -2,6 +2,7 @@ import {
     AnnotationIcon,
     LibraryIcon,
     LocationMarkerIcon,
+    PhotographIcon,
     RssIcon,
     UserIcon,
 } from '@heroicons/react/solid';
@@ -22,6 +23,10 @@ export const STEPS = [
     {
         label: 'Detalhes',
         icon: AnnotationIcon,
+    },
+    {
+        label: 'Imagens',
+        icon: PhotographIcon,
     },
     {
         label: 'Anunciar',
