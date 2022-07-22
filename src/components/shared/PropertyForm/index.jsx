@@ -25,7 +25,7 @@ import * as types from './types';
 import { initState } from './utils';
 
 const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
-    const { activeStep, nextStep, prevStep, reset } = useSteps(0);
+    const { activeStep, nextStep, prevStep } = useSteps(0);
     const [form, dispatch] = useReducer(reducer, initState(data));
 
     const handleSubmit = (type) => (payload) => {
@@ -41,9 +41,8 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
             type: types.RESET,
             payload: initState(data),
         });
-        reset();
         onCancel();
-    }, [data, onCancel, reset]);
+    }, [data, onCancel]);
 
     const handleSave = useCallback(() => {
         const body = {
@@ -62,45 +61,40 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                     <StepAddress
                         initialValues={form[types.ADDRESS]}
                         onSubmit={handleSubmit(types.ADDRESS)}
-                    >
-                        <StepperActions isFirstStep onPrevious={handleReset} />
-                    </StepAddress>
+                        onPrevious={handleReset}
+                    />
                 );
             case 1:
                 return (
                     <StepOwner
                         initialValues={form[types.OWNER]}
                         onSubmit={handleSubmit(types.OWNER)}
-                    >
-                        <StepperActions onPrevious={prevStep} />
-                    </StepOwner>
+                        onPrevious={prevStep}
+                    />
                 );
             case 2:
                 return (
                     <StepLegal
                         initialValues={form[types.LEGAL]}
                         onSubmit={handleSubmit(types.LEGAL)}
-                    >
-                        <StepperActions onPrevious={prevStep} />
-                    </StepLegal>
+                        onPrevious={prevStep}
+                    />
                 );
             case 3:
                 return (
                     <StepFeatures
                         initialValues={form[types.FEATURES]}
                         onSubmit={handleSubmit(types.FEATURES)}
-                    >
-                        <StepperActions onPrevious={prevStep} />
-                    </StepFeatures>
+                        onPrevious={prevStep}
+                    />
                 );
             case 4:
                 return (
                     <StepAdvertise
                         initialValues={form[types.ADVERTISE]}
                         onSubmit={handleSubmit(types.ADVERTISE)}
-                    >
-                        <StepperActions isLastStep onPrevious={prevStep} />
-                    </StepAdvertise>
+                        onPrevious={prevStep}
+                    />
                 );
             default:
                 return (

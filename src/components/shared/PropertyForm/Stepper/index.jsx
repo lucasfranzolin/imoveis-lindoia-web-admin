@@ -1,5 +1,6 @@
 import { Divider, HStack, Text } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { Fragment } from 'react';
 
 import { StepperIcon } from '../StepperIcon';
 
@@ -9,8 +10,8 @@ const Stepper = ({ steps, activeStep }) => {
     return (
         <HStack spacing={4} mb={8}>
             {steps.map(({ label, icon }, index) => (
-                <>
-                    <HStack key={`step-${label}`}>
+                <Fragment key={`step-${label}`}>
+                    <HStack>
                         <StepperIcon
                             icon={icon}
                             isCompletedStep={index < activeStep}
@@ -30,7 +31,7 @@ const Stepper = ({ steps, activeStep }) => {
                             }
                         />
                     )}
-                </>
+                </Fragment>
             ))}
         </HStack>
     );
@@ -40,7 +41,7 @@ Stepper.propTypes = {
     steps: PropTypes.arrayOf(
         PropTypes.shape({
             label: PropTypes.string.isRequired,
-            icon: PropTypes.element.isRequired,
+            icon: PropTypes.object.isRequired,
         })
     ).isRequired,
     activeStep: PropTypes.number.isRequired,

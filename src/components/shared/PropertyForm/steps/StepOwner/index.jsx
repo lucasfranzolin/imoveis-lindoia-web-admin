@@ -10,9 +10,10 @@ import PropTypes from 'prop-types';
 import { useCustomers } from '../../../../../hooks/useCustomers';
 import { useEffectOnce } from '../../../../../hooks/useEffectOnce';
 import { SelectAsync } from '../../../../ui/SelectAsync';
+import { StepperActions } from '../../StepperActions';
 import { validationSchema } from './utils';
 
-const StepOwner = ({ initialValues, children, onSubmit }) => {
+const StepOwner = ({ initialValues, onPrevious, onSubmit }) => {
     const [{ data, loading }, paginate] = useCustomers();
 
     useEffectOnce(() => {
@@ -68,7 +69,7 @@ const StepOwner = ({ initialValues, children, onSubmit }) => {
                             {formik.errors.ownerId}
                         </FormErrorMessage>
                     </FormControl>
-                    {children}
+                    <StepperActions onPrevious={onPrevious} />
                 </Stack>
             )}
         </Formik>
@@ -80,7 +81,7 @@ StepOwner.propTypes = {
         ownerId: PropTypes.string.isRequired,
     }),
     onSubmit: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    onPrevious: PropTypes.func.isRequired,
 };
 
 export { StepOwner };

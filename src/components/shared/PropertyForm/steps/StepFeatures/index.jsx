@@ -11,9 +11,10 @@ import { useEffectOnce } from '../../../../../hooks/useEffectOnce';
 import { usePropertyPurposes } from '../../../../../hooks/usePropertyPurposes';
 import { usePropertyTypes } from '../../../../../hooks/usePropertyTypes';
 import { SelectAsync } from '../../../../ui/SelectAsync';
+import { StepperActions } from '../../StepperActions';
 import { validationSchema } from './utils';
 
-const StepFeatures = ({ initialValues, children, onSubmit }) => {
+const StepFeatures = ({ initialValues, onPrevious, onSubmit }) => {
     const [{ data: purposes, loading: fetchingPurposes }, getPurposes] =
         usePropertyPurposes();
     const [
@@ -102,7 +103,7 @@ const StepFeatures = ({ initialValues, children, onSubmit }) => {
                             {formik.errors.type}
                         </FormErrorMessage>
                     </FormControl>
-                    {children}
+                    <StepperActions onPrevious={onPrevious} />
                 </Stack>
             )}
         </Formik>
@@ -115,7 +116,7 @@ StepFeatures.propTypes = {
         type: PropTypes.string.isRequired,
     }),
     onSubmit: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    onPrevious: PropTypes.func.isRequired,
 };
 
 export { StepFeatures };

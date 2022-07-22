@@ -11,9 +11,10 @@ import {
 import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 
+import { StepperActions } from '../../StepperActions';
 import { validationSchema } from './utils';
 
-const StepAdvertise = ({ initialValues, children, onSubmit }) => {
+const StepAdvertise = ({ initialValues, onPrevious, onSubmit }) => {
     const handleSubmit = (values, actions) => {
         actions.setSubmitting(false);
         onSubmit(values);
@@ -118,7 +119,7 @@ const StepAdvertise = ({ initialValues, children, onSubmit }) => {
                             </FormErrorMessage>
                         </FormControl>
                     </Stack>
-                    {children}
+                    <StepperActions onPrevious={onPrevious} />
                 </Stack>
             )}
         </Formik>
@@ -137,7 +138,7 @@ StepAdvertise.propTypes = {
         }).isRequired,
     }),
     onSubmit: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    onPrevious: PropTypes.func.isRequired,
 };
 
 export { StepAdvertise };

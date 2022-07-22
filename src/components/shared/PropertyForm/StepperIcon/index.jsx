@@ -38,7 +38,7 @@ const StepperIcon = ({ icon, isCompletedStep, isCurrentStep, isError }) => {
 };
 
 StepperIcon.propTypes = {
-    icon: PropTypes.element.isRequired,
+    icon: PropTypes.object.isRequired,
     isCompletedStep: PropTypes.bool,
     isCurrentStep: PropTypes.bool,
     isError: PropTypes.bool,

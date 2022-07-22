@@ -15,11 +15,12 @@ import { useLocalityCities } from '../../../../../hooks/useLocalityCities';
 import { useLocalityStates } from '../../../../../hooks/useLocalityStates';
 import { configHttp } from '../../../../../utils/http';
 import { SelectAsync } from '../../../../ui/SelectAsync';
+import { StepperActions } from '../../StepperActions';
 import { validationSchema } from './utils';
 
 const http = configHttp('client');
 
-const StepAddress = ({ initialValues, children, onSubmit }) => {
+const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
     const [{ data: states, loading: fetchingStates }, getStates] =
         useLocalityStates();
     const [
@@ -236,7 +237,7 @@ const StepAddress = ({ initialValues, children, onSubmit }) => {
                             </FormControl>
                         </GridItem>
                     </Grid>
-                    {children}
+                    <StepperActions isFirstStep onPrevious={onPrevious} />
                 </Stack>
             )}
         </Formik>
@@ -254,7 +255,7 @@ StepAddress.propTypes = {
         zip: PropTypes.string.isRequired,
     }),
     onSubmit: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    onPrevious: PropTypes.func.isRequired,
 };
 
 export { StepAddress };
