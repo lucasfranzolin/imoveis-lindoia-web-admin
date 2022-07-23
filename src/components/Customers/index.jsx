@@ -94,19 +94,8 @@ const Customers = () => {
 
     return (
         <>
-            <Stack
-                spacing={4}
-                bg="white"
-                borderWidth={1}
-                boxShadow="md"
-                borderRadius="md"
-            >
-                <HStack
-                    px={6}
-                    pt={4}
-                    alignItems="flex-start"
-                    justifyContent="space-between"
-                >
+            <Stack spacing={4}>
+                <HStack alignItems="flex-start" justifyContent="space-between">
                     <Heading as="h4" size="md">
                         Clientes
                     </Heading>

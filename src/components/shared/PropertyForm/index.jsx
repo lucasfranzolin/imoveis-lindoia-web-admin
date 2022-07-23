@@ -92,7 +92,7 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
             case 4:
                 return (
                     <StepFiles
-                        initialValues={form[types.FEATURES]}
+                        initialValues={form[types.FILES]}
                         onSubmit={handleSubmit(types.FEATURES)}
                         onPrevious={prevStep}
                     />

@@ -47,15 +47,7 @@ const CustomerEdit = ({ id }) => {
     };
 
     return (
-        <Stack
-            spacing={4}
-            bg="white"
-            borderWidth={1}
-            boxShadow="md"
-            borderRadius="md"
-            px={6}
-            py={4}
-        >
+        <Stack spacing={4}>
             <Heading as="h4" size="md">
                 Atualizar cliente
             </Heading>

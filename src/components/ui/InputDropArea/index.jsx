@@ -1,37 +1,33 @@
-import {
-    Box,
-    Button,
-    HStack,
-    Icon,
-    Input,
-    Stack,
-    Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Icon, Input, Text } from '@chakra-ui/react';
 import { UploadIcon } from '@heroicons/react/solid';
 import PropTypes from 'prop-types';
+import { useDropzone } from 'react-dropzone';
 
-import { useImgDropzone } from '../../../hooks/useImgDropzone';
-
-const InputDropArea = ({ defaultFiles, onChange }) => {
-    const {
-        getRootProps, //
-        getInputProps,
-        isDragActive,
-        open,
-        files,
-        onClear,
-    } = useImgDropzone(defaultFiles, onChange);
+const InputDropArea = ({ options, onChange }) => {
+    const { isDragActive, getRootProps, getInputProps, open } = useDropzone({
+        noClick: true,
+        noKeyboard: true,
+        onDropAccepted: onChange,
+        ...options,
+    });
 
     return (
         <Box
             {...getRootProps()}
             w="md"
             borderWidth={1}
+            borderStyle="dashed"
             borderRadius="md"
             bg={isDragActive ? 'gray.100' : 'white'}
         >
             <Input {...getInputProps()} />
-            <Stack alignItems="center" justifyContent="center" mx="auto" py={4}>
+            <Flex
+                flexDir="column"
+                alignItems="center"
+                justifyContent="center"
+                mx="auto"
+                py={4}
+            >
                 <Icon as={UploadIcon} mb={2} />
                 <HStack spacing={1}>
                     <Button
@@ -43,20 +39,24 @@ const InputDropArea = ({ defaultFiles, onChange }) => {
                         Clique para carregar
                     </Button>
                     <Text as="span" fontSize="sm" textColor="gray.600">
-                        ou arraste e solte
+                        ou arraste e solte.
                     </Text>
                 </HStack>
                 <Text as="span" fontSize="xs" textColor="gray.600">
-                    PNG ou JPG até 2MB
+                    PNG ou JPG até 2MB.
                 </Text>
-            </Stack>
+            </Flex>
         </Box>
     );
 };
 
 InputDropArea.propTypes = {
-    defaultFiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+    options: PropTypes.object,
     onChange: PropTypes.func.isRequired,
+};
+
+InputDropArea.defaultProps = {
+    options: {},
 };
 
 export { InputDropArea };

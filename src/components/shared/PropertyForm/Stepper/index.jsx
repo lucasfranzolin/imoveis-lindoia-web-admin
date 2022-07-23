@@ -24,7 +24,7 @@ const Stepper = ({ steps, activeStep }) => {
                         <Divider
                             flex={1}
                             orientation="horizontal"
-                            borderWidth={2}
+                            borderWidth={1}
                             borderRadius="3xl"
                             borderColor={
                                 index + 1 <= activeStep ? 'teal.500' : undefined
