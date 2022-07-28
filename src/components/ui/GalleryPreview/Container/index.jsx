@@ -8,11 +8,11 @@ const Container = ({ children, onDragEnd }) => {
             <Droppable droppableId="gallery" direction="horizontal">
                 {(droppable) => (
                     <Stack
-                        pb={6}
+                        spacing={4}
+                        pb={4}
                         direction="row"
                         overflowY="hidden"
                         overflowX="auto"
-                        spacing={6}
                         ref={droppable.innerRef}
                         {...droppable.droppableProps}
                     >

@@ -25,10 +25,6 @@ const PropertyNew = () => {
 
     const handleCancel = () => router.push('/properties');
 
-    const handleSubmit = (values) => {
-        submit(values);
-    };
-
     return (
         <Stack spacing={4}>
             <Heading as="h4" size="md">
@@ -38,7 +34,7 @@ const PropertyNew = () => {
                 error={error}
                 success={success}
                 saving={loading}
-                onSubmit={handleSubmit}
+                onSubmit={submit}
                 onCancel={handleCancel}
             />
         </Stack>

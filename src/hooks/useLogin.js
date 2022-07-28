@@ -13,6 +13,9 @@ export const useLogin = () => {
             loading: false,
             success,
             error: false,
+            data: {
+                accessToken: 'test123',
+            },
         },
         login,
     ];

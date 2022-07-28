@@ -11,6 +11,7 @@ const Logo = () => {
                     textDecoration: 'none',
                 }}
                 title="Voltar ao inicio"
+                fontSize="xl"
             >
                 <Text fontWeight="bold">imoveis</Text>
                 <Text textColor="teal.500">lindoia</Text>

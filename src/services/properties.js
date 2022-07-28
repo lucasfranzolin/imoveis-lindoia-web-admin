@@ -23,4 +23,13 @@ export const propertiesService = {
             },
         });
     },
+    upload: async ({ id, formData }) => {
+        const path = `/properties/${id}/media`;
+        const url = host + path;
+        const headers = {
+            ...formData.getHeaders(),
+            'x-change-agent': 'mock',
+        };
+        return await http.post(url, formData, { headers });
+    },
 };

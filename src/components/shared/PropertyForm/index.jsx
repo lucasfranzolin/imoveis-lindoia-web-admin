@@ -25,7 +25,7 @@ import * as types from './types';
 import { initState } from './utils';
 
 const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
-    const { activeStep, nextStep, prevStep } = useSteps(4);
+    const { activeStep, nextStep, prevStep } = useSteps(0);
     const [form, dispatch] = useReducer(reducer, initState(data));
 
     const handleSubmit = (type) => (payload) => {
@@ -46,13 +46,15 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
 
     const handleSave = useCallback(() => {
         const body = {
-            address: { ...form[types.ADDRESS] },
+            address: {
+                ...form[types.ADDRESS],
+            },
             ...form[types.OWNER],
             ...form[types.FEATURES],
             ...form[types.ADVERTISE],
             ...form[types.LEGAL],
         };
-        onSubmit(body);
+        onSubmit(body, form[types.FILES]);
     }, [form, onSubmit]);
 
     const getStepContent = (index) => {
@@ -93,7 +95,7 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                 return (
                     <StepFiles
                         initialValues={form[types.FILES]}
-                        onSubmit={handleSubmit(types.FEATURES)}
+                        onSubmit={handleSubmit(types.FILES)}
                         onPrevious={prevStep}
                     />
                 );

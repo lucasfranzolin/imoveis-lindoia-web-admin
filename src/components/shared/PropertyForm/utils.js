@@ -27,9 +27,7 @@ export const initState = (data) => ({
     [types.OWNER]: {
         ownerId: data ? data.ownerId : '',
     },
-    [types.FILES]: {
-        downloadURLs: data ? data.downloadURLs : [],
-    },
+    [types.FILES]: data ? data.files : [],
     [types.LEGAL]: {
         registry: data ? data.registry : '',
     },

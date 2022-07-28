@@ -81,7 +81,6 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                                 <Input
                                     name="zip"
                                     id="zip"
-                                    type="number"
                                     value={formik.values.zip}
                                     onChange={formik.handleChange}
                                     onBlur={handleBlurZip(formik)}
@@ -211,7 +210,6 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                                 <Input
                                     name="number"
                                     id="number"
-                                    type="number"
                                     value={formik.values.number}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}

@@ -1,18 +1,64 @@
 import { useUpdateEffect } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { useFetch } from './useFetch';
 
 export const usePropertyCreate = () => {
-    const [body, setBody] = useState(null);
-    const [response, fetch] = useFetch('/api/properties');
+    const previewsRef = useRef();
+    const [id, setId] = useState(null);
+    const [{ success: created, data, loading }, fetch] =
+        useFetch('/api/properties');
+    const [{ loading: uploading, ...rest }, upload] = useFetch(
+        `/api/properties/${id}/media`
+    );
 
     useUpdateEffect(() => {
-        if (!!body) {
-            fetch('post', body);
-            setBody(null);
+        if (!!id) {
+            const formData = new FormData();
+            const metadata = [];
+            previewsRef.current.forEach(
+                (
+                    {
+                        file,
+                        // metadata 👇
+                        description,
+                    },
+                    index // metadata
+                ) => {
+                    formData.append('files', file);
+                    metadata.push({
+                        description,
+                        index,
+                    });
+                }
+            );
+            formData.append('metadata', JSON.stringify(metadata));
+            const headers = {
+                'Content-Type': 'multipart/form-data',
+            };
+            upload('post', formData, { headers });
         }
-    }, [body]);
+    }, [id, upload]);
 
-    return [response, setBody];
+    useUpdateEffect(() => {
+        if (created) {
+            setId(data.uuid);
+        }
+    }, [created, data]);
+
+    const submit = useCallback(
+        (body, previews) => {
+            previewsRef.current = previews;
+            fetch('post', body);
+        },
+        [fetch]
+    );
+
+    return [
+        {
+            loading: loading || uploading,
+            ...rest,
+        },
+        submit,
+    ];
 };

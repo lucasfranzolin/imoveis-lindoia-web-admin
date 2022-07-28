@@ -7,8 +7,8 @@ export default async function handler(req, res) {
     switch (req.method) {
         case 'POST':
             try {
-                const { status } = await propertiesService.save(req.body);
-                return res.status(status).send();
+                const { data, status } = await propertiesService.save(req.body);
+                return res.status(status).json(data);
             } catch (err) {
                 return errorHandler(err, res);
             }

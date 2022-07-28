@@ -1,5 +1,19 @@
 import axios from 'axios';
 
+import {
+    getRequestInterceptor,
+    getResponseErrorInterceptor,
+} from './interceptors';
+
 export function getClientInstance() {
-    return axios.create({});
+    const instance = axios.create({});
+
+    instance.interceptors.request.use(getRequestInterceptor);
+
+    instance.interceptors.response.use(
+        (response) => response,
+        getResponseErrorInterceptor
+    );
+
+    return instance;
 }

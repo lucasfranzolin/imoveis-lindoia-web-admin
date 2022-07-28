@@ -1,5 +1,6 @@
 import axios from 'axios';
 
 export function getServerInstance() {
-    return axios.create({});
+    const instance = axios.create({});
+    return instance;
 }

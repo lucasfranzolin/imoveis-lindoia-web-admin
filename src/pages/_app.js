@@ -4,10 +4,11 @@ import '../styles/globals.scss';
 import { ChakraProvider } from '@chakra-ui/react';
 
 import { AuthProvider } from '../contexts/auth';
+import { chakraTheme } from '../styles/chakra-theme';
 
 function MyApp({ Component, pageProps }) {
     return (
-        <ChakraProvider>
+        <ChakraProvider theme={chakraTheme}>
             <AuthProvider>
                 <Component {...pageProps} />
             </AuthProvider>

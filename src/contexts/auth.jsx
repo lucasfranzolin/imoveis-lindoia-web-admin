@@ -5,13 +5,16 @@ import { createContext } from 'react';
 import { useLogin } from '../hooks/useLogin';
 import { useRegister } from '../hooks/useRegister';
 import { useUpdateEffect } from '../hooks/useUpdateEffect';
+import { STORAGE_ITEM_ACCESS_TOKEN } from '../utils/http';
 
 export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
     const router = useRouter();
-    const [{ loading: loggingIn, error: loginError, success: loginOk }, login] =
-        useLogin();
+    const [
+        { loading: loggingIn, error: loginError, success: loginOk, data },
+        login,
+    ] = useLogin();
     const [
         { loading: registering, error: registerError, success: registerOk },
         register,
@@ -19,9 +22,10 @@ const AuthProvider = ({ children }) => {
 
     useUpdateEffect(() => {
         if (loginOk) {
+            localStorage.setItem(STORAGE_ITEM_ACCESS_TOKEN, data.accessToken);
             router.push('/');
         }
-    }, [loginOk]);
+    }, [loginOk, data]);
 
     useUpdateEffect(() => {
         if (registerOk) {

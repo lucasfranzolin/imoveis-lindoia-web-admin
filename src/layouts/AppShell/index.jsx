@@ -1,5 +1,13 @@
-import { Box, Flex, Icon, IconButton, useDisclosure } from '@chakra-ui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/solid';
+import {
+    Box,
+    Button,
+    Flex,
+    Icon,
+    IconButton,
+    useColorMode,
+    useDisclosure,
+} from '@chakra-ui/react';
+import { MenuIcon, MoonIcon, SunIcon, XIcon } from '@heroicons/react/solid';
 import PropTypes from 'prop-types';
 
 import { ROUTES } from './constants';
@@ -8,6 +16,7 @@ import { MobileNav } from './MobileNav';
 import { UserMenu } from './UserMenu';
 
 const AppShell = ({ children }) => {
+    const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -40,7 +49,22 @@ const AppShell = ({ children }) => {
                         onClick={isOpen ? onClose : onOpen}
                     />
                     <DesktopNav routes={ROUTES} />
-                    <UserMenu src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" />
+                    <Flex>
+                        <IconButton
+                            icon={
+                                <Icon
+                                    as={
+                                        colorMode === 'light'
+                                            ? MoonIcon
+                                            : SunIcon
+                                    }
+                                />
+                            }
+                            onClick={toggleColorMode}
+                            mr={4}
+                        />
+                        <UserMenu src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" />
+                    </Flex>
                 </Flex>
                 <MobileNav isOpen={isOpen} routes={ROUTES} />
             </Flex>

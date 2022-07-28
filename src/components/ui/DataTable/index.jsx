@@ -12,6 +12,7 @@ import {
     Th,
     Thead,
     Tr,
+    useColorModeValue,
 } from '@chakra-ui/react';
 import {
     ArrowDownIcon,
@@ -50,7 +51,11 @@ const DataTable = ({
         <TableContainer>
             <Table>
                 <Thead>
-                    <Tr bg="gray.50" borderTopWidth={1} borderBottomWidth={1}>
+                    <Tr
+                        bg={useColorModeValue('gray.100', 'gray.700')}
+                        borderTopWidth={1}
+                        borderBottomWidth={1}
+                    >
                         {header.map((th) => (
                             <Th key={`th-${th.label}`}>
                                 <Text as="span" verticalAlign="middle">

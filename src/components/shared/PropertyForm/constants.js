@@ -25,7 +25,7 @@ export const STEPS = [
         icon: AnnotationIcon,
     },
     {
-        label: 'Imagens',
+        label: 'Galeria',
         icon: PhotographIcon,
     },
     {
