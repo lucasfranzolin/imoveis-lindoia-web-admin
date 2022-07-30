@@ -4,24 +4,17 @@ import {
     Icon,
     IconButton,
     Image,
-    Menu,
-    MenuButton,
-    MenuDivider,
-    MenuItem,
-    MenuList,
     Tooltip,
     useColorModeValue,
 } from '@chakra-ui/react';
-import { DotsVerticalIcon, PencilIcon, XIcon } from '@heroicons/react/solid';
+import { TrashIcon } from '@heroicons/react/solid';
 import PropTypes from 'prop-types';
 import { Draggable } from 'react-beautiful-dnd';
 
-const Thumb = ({ id, index, src, onRemove, onEdit }) => {
+const Thumb = ({ id, index, src, onRemove }) => {
     let red = useColorModeValue('red.500', 'red.300');
 
-    const handleMenuRemove = (idx) => () => onRemove(idx);
-
-    const handleMenuEdit = (idx) => () => onEdit(idx);
+    const handleRemove = (idx) => () => onRemove(idx);
 
     return (
         <Draggable draggableId={id} index={index}>
@@ -29,35 +22,18 @@ const Thumb = ({ id, index, src, onRemove, onEdit }) => {
                 <Flex
                     direction="column"
                     ref={draggable.innerRef}
+                    alignItems="flex-end"
                     {...draggable.draggableProps}
                     {...draggable.dragHandleProps}
                 >
-                    <Menu>
-                        <Tooltip label="Mais opções" placement="top">
-                            <MenuButton
-                                as={IconButton}
-                                alignSelf="flex-end"
-                                size="xs"
-                                icon={<Icon as={DotsVerticalIcon} />}
-                            />
-                        </Tooltip>
-                        <MenuList>
-                            <MenuItem
-                                icon={<Icon as={PencilIcon} />}
-                                onClick={handleMenuEdit(index)}
-                            >
-                                Editar
-                            </MenuItem>
-                            <MenuDivider />
-                            <MenuItem
-                                textColor={red}
-                                icon={<Icon as={XIcon} />}
-                                onClick={handleMenuRemove(index)}
-                            >
-                                Remover
-                            </MenuItem>
-                        </MenuList>
-                    </Menu>
+                    <Tooltip label="Remover" placement="top">
+                        <IconButton
+                            size="sm"
+                            textColor={red}
+                            icon={<Icon as={TrashIcon} />}
+                            onClick={handleRemove(index)}
+                        />
+                    </Tooltip>
                     <AspectRatio w="300px" ratio={4 / 3} mt={2} borderWidth={1}>
                         <Image
                             alt={`preview-${index}`}
@@ -75,7 +51,6 @@ Thumb.propTypes = {
     id: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     src: PropTypes.string.isRequired,
-    onEdit: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
 };
 

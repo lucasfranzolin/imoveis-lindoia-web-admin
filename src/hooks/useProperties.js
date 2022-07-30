@@ -2,8 +2,8 @@ import { useCallback } from 'react';
 
 import { useFetch } from './useFetch';
 
-export const useCustomers = () => {
-    const [{ data, ...rest }, fetch] = useFetch('/api/customers');
+export const useProperties = () => {
+    const [{ data, ...rest }, fetch] = useFetch('/api/properties');
 
     const search = useCallback(
         (params) => {

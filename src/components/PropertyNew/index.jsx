@@ -8,7 +8,7 @@ import { PropertyForm } from '../shared/PropertyForm';
 const PropertyNew = () => {
     const router = useRouter();
     const toast = useToast();
-    const [{ error, success, loading }, submit] = usePropertyCreate();
+    const [{ error, success, loading: saving }, submit] = usePropertyCreate();
 
     useUpdateEffect(() => {
         if (success) {
@@ -32,10 +32,9 @@ const PropertyNew = () => {
             </Heading>
             <PropertyForm
                 error={error}
-                success={success}
-                saving={loading}
-                onSubmit={submit}
                 onCancel={handleCancel}
+                onSubmit={submit}
+                saving={saving}
             />
         </Stack>
     );

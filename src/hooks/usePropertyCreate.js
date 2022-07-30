@@ -15,24 +15,9 @@ export const usePropertyCreate = () => {
     useUpdateEffect(() => {
         if (!!id) {
             const formData = new FormData();
-            const metadata = [];
-            previewsRef.current.forEach(
-                (
-                    {
-                        file,
-                        // metadata 👇
-                        description,
-                    },
-                    index // metadata
-                ) => {
-                    formData.append('files', file);
-                    metadata.push({
-                        description,
-                        index,
-                    });
-                }
-            );
-            formData.append('metadata', JSON.stringify(metadata));
+            previewsRef.current.forEach(({ file }) => {
+                formData.append('files', file);
+            });
             const headers = {
                 'Content-Type': 'multipart/form-data',
             };

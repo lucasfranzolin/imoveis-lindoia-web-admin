@@ -79,6 +79,7 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                             >
                                 <FormLabel htmlFor="zip">CEP</FormLabel>
                                 <Input
+                                    variant="filled"
                                     name="zip"
                                     id="zip"
                                     value={formik.values.zip}
@@ -99,6 +100,7 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                             >
                                 <FormLabel htmlFor="state">Estado</FormLabel>
                                 <SelectAsync
+                                    variant="filled"
                                     isLoading={fetchingStates}
                                     name="state"
                                     id="state"
@@ -130,6 +132,7 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                             >
                                 <FormLabel htmlFor="city">Cidade</FormLabel>
                                 <SelectAsync
+                                    variant="filled"
                                     isLoading={fetchingCities}
                                     name="city"
                                     id="city"
@@ -162,6 +165,7 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                             >
                                 <FormLabel htmlFor="district">Bairro</FormLabel>
                                 <Input
+                                    variant="filled"
                                     name="district"
                                     id="district"
                                     type="text"
@@ -186,6 +190,7 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                                     Logradouro
                                 </FormLabel>
                                 <Input
+                                    variant="filled"
                                     name="street"
                                     id="street"
                                     type="text"
@@ -208,6 +213,7 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                             >
                                 <FormLabel htmlFor="number">Número</FormLabel>
                                 <Input
+                                    variant="filled"
                                     name="number"
                                     id="number"
                                     value={formik.values.number}
@@ -225,6 +231,7 @@ const StepAddress = ({ initialValues, onPrevious, onSubmit }) => {
                                     Complemento
                                 </FormLabel>
                                 <Input
+                                    variant="filled"
                                     name="complement"
                                     id="complement"
                                     type="text"

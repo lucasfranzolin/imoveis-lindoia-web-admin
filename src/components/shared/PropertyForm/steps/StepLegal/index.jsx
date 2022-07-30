@@ -36,6 +36,7 @@ const StepLegal = ({ initialValues, onPrevious, onSubmit }) => {
                         >
                             <FormLabel htmlFor="registry">Matrícula</FormLabel>
                             <Input
+                                variant="filled"
                                 name="registry"
                                 id="registry"
                                 value={formik.values.registry}

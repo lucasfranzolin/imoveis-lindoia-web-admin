@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 
-import { CustomerDetails } from '../../../components/CustomerDetails';
+import { PropertyDetails } from '../../../components/PropertyDetails';
 import { AppShell } from '../../../layouts/AppShell';
 
-export default function CustomerDetailsPage() {
+export default function PropertyDetailsPage() {
     const router = useRouter();
     const { id } = router.query;
 
@@ -11,7 +11,7 @@ export default function CustomerDetailsPage() {
 
     return (
         <AppShell>
-            <CustomerDetails id={id} />
+            <PropertyDetails id={id} />
         </AppShell>
     );
 }

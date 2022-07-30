@@ -28,7 +28,11 @@ const Pagination = ({
             </Text>
             <HStack spacing={4} flex={1} justifyContent="flex-end">
                 <Box>
-                    <Select onChange={handleChange} borderRadius="md">
+                    <Select
+                        variant="filled"
+                        onChange={handleChange}
+                        borderRadius="md"
+                    >
                         {OPTIONS.map((opt) => (
                             <option key={`pagination-opt-${opt}`} value={opt}>
                                 {opt}

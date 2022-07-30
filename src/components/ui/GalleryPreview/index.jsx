@@ -13,24 +13,12 @@ import { useCallback, useRef } from 'react';
 
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Container } from './Container';
-import { MetadataDialog } from './MetadataDialog';
 import { Thumb } from './Thumb';
 import { reorder } from './utils';
 
-const GalleryPreview = ({
-    data,
-    onSubmitMetadata,
-    onRemove,
-    onReorder,
-    onClear,
-}) => {
-    const editingRef = useRef(0);
+const GalleryPreview = ({ data, onRemove, onReorder, onClear }) => {
+    const deleteRef = useRef(0);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const {
-        isOpen: isConfirming,
-        onOpen: onOpenConfirmation,
-        onClose: onCloseConfirmation,
-    } = useDisclosure();
 
     const handleDragEnd = useCallback(
         (result) => {
@@ -49,28 +37,17 @@ const GalleryPreview = ({
 
     const handleDelete = useCallback(
         (index) => {
-            editingRef.current = index;
-            const thumb = data[editingRef.current];
-            const isFile = thumb.prevIndex < 0;
-            if (isFile) onRemove(editingRef.current, isFile);
-            else onOpenConfirmation();
+            deleteRef.current = index;
+            const thumb = data[deleteRef.current];
+            const isFile = thumb.index < 0;
+            if (isFile) onRemove(deleteRef.current);
+            else onOpen();
         },
-        [data, onOpenConfirmation, onRemove]
+        [data, onOpen, onRemove]
     );
 
-    const handleEdit = (index) => {
-        editingRef.current = index;
-        onOpen();
-    };
-
-    const handlePositiveConfirmation = useCallback(() => {
-        onClose();
-        onRemove(editingRef.current, false);
-    }, [onClose, onRemove]);
-
-    const handleSubmitMetadata = (metadata) => {
-        onClose();
-        onSubmitMetadata(editingRef.current, metadata);
+    const handlePositive = () => {
+        console.log(deleteRef.current);
     };
 
     return (
@@ -106,29 +83,17 @@ const GalleryPreview = ({
                             index={index}
                             src={item.url}
                             onRemove={handleDelete}
-                            onEdit={handleEdit}
                         />
                     ))}
                 </Container>
             </Stack>
-            <MetadataDialog
-                initialValues={{
-                    description: data[editingRef.current]?.description,
-                }}
-                index={editingRef.current}
-                src={data[editingRef.current]?.url}
-                isOpen={isOpen}
-                onClose={onClose}
-                onCancel={onClose}
-                onSubmit={handleSubmitMetadata}
-            />
             <ConfirmationDialog
                 header="Remover arquivo permanentemente?"
                 body="Você não pode desfazer essa ação depois."
-                isOpen={isConfirming}
-                onClose={onCloseConfirmation}
-                onNegative={onCloseConfirmation}
-                onPositive={handlePositiveConfirmation}
+                isOpen={isOpen}
+                onClose={onClose}
+                onNegative={onClose}
+                onPositive={handlePositive}
             />
         </>
     );
@@ -139,11 +104,9 @@ GalleryPreview.propTypes = {
         PropTypes.shape({
             url: PropTypes.string,
             uuid: PropTypes.string,
-            description: PropTypes.string,
             file: PropTypes.any,
         })
     ).isRequired,
-    onSubmitMetadata: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onReorder: PropTypes.func.isRequired,
     onClear: PropTypes.func.isRequired,

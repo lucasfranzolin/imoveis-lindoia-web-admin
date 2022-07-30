@@ -59,6 +59,7 @@ const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                             <FormLabel htmlFor="fullName">Nome</FormLabel>
                             <Skeleton isLoaded={!loading}>
                                 <Input
+                                    variant="filled"
                                     name="fullName"
                                     id="fullName"
                                     type="text"
@@ -80,6 +81,7 @@ const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                             <FormLabel htmlFor="email">Email</FormLabel>
                             <Skeleton isLoaded={!loading}>
                                 <Input
+                                    variant="filled"
                                     name="email"
                                     id="email"
                                     type="email"
@@ -101,6 +103,7 @@ const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                             <FormLabel htmlFor="phone">Celular</FormLabel>
                             <Skeleton isLoaded={!loading}>
                                 <MaskedInput
+                                    variant="filled"
                                     name="phone"
                                     id="phone"
                                     mask="phone"
@@ -119,6 +122,7 @@ const CustomerForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
                             <FormLabel htmlFor="cpf">CPF</FormLabel>
                             <Skeleton isLoaded={!loading}>
                                 <MaskedInput
+                                    variant="filled"
                                     name="cpf"
                                     id="cpf"
                                     mask="cpf"

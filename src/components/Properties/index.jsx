@@ -1,9 +1,24 @@
 import { Box, Button, Heading, HStack, Icon, Stack } from '@chakra-ui/react';
 import { PlusIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+import { usePagination } from '../../hooks/usePagination';
+import { useProperties } from '../../hooks/useProperties';
 
 const Properties = () => {
     const router = useRouter();
+    const { page, pageSize, order, onNavigate, setPageSize, sort } =
+        usePagination();
+    const [{ data, loading }, paginate] = useProperties();
+
+    useEffect(() => {
+        paginate({
+            page,
+            pageSize,
+            order,
+        });
+    }, [paginate, page, pageSize, order]);
 
     const handleClickNew = () => router.push('/properties/new');
 
@@ -23,7 +38,9 @@ const Properties = () => {
                     </Button>
                 </HStack>
             </HStack>
-            <Box></Box>
+            <Box>
+                <pre>{JSON.stringify(data, null, 4)}</pre>
+            </Box>
         </Stack>
     );
 };

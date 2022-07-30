@@ -62,6 +62,7 @@ const StepAdvertise = ({ initialValues, onPrevious, onSubmit }) => {
                                 Preço de venda
                             </FormLabel>
                             <Input
+                                variant="filled"
                                 name="sale.value"
                                 id="sale.value"
                                 type="number"
@@ -107,6 +108,7 @@ const StepAdvertise = ({ initialValues, onPrevious, onSubmit }) => {
                                 Preço do aluguel
                             </FormLabel>
                             <Input
+                                variant="filled"
                                 name="rent.value"
                                 id="rent.value"
                                 type="number"

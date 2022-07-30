@@ -1,4 +1,5 @@
 import * as types from './types';
+import { initState } from './utils';
 
 export function reducer(state, { type, payload }) {
     switch (type) {
@@ -33,7 +34,7 @@ export function reducer(state, { type, payload }) {
                 [types.FILES]: payload,
             };
         case types.RESET:
-            return payload;
+            return initState(payload);
         default:
             throw new Error(`Can't dispatch type '${type}'`);
     }

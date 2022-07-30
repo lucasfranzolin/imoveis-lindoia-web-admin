@@ -26,8 +26,9 @@ import { initState } from './utils';
 
 const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
     const { activeStep, nextStep, prevStep } = useSteps(0);
-    const [form, dispatch] = useReducer(reducer, initState(data));
+    const [form, dispatch] = useReducer(reducer, data, initState);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleSubmit = (type) => (payload) => {
         dispatch({
             type,
@@ -39,7 +40,7 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
     const handleReset = useCallback(() => {
         dispatch({
             type: types.RESET,
-            payload: initState(data),
+            payload: data,
         });
         onCancel();
     }, [data, onCancel]);
@@ -57,78 +58,84 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
         onSubmit(body, form[types.FILES]);
     }, [form, onSubmit]);
 
-    const getStepContent = (index) => {
-        switch (index) {
-            case 0:
-                return (
-                    <StepAddress
-                        initialValues={form[types.ADDRESS]}
-                        onSubmit={handleSubmit(types.ADDRESS)}
-                        onPrevious={handleReset}
-                    />
-                );
-            case 1:
-                return (
-                    <StepOwner
-                        initialValues={form[types.OWNER]}
-                        onSubmit={handleSubmit(types.OWNER)}
-                        onPrevious={prevStep}
-                    />
-                );
-            case 2:
-                return (
-                    <StepLegal
-                        initialValues={form[types.LEGAL]}
-                        onSubmit={handleSubmit(types.LEGAL)}
-                        onPrevious={prevStep}
-                    />
-                );
-            case 3:
-                return (
-                    <StepFeatures
-                        initialValues={form[types.FEATURES]}
-                        onSubmit={handleSubmit(types.FEATURES)}
-                        onPrevious={prevStep}
-                    />
-                );
-            case 4:
-                return (
-                    <StepFiles
-                        initialValues={form[types.FILES]}
-                        onSubmit={handleSubmit(types.FILES)}
-                        onPrevious={prevStep}
-                    />
-                );
-            case 5:
-                return (
-                    <StepAdvertise
-                        initialValues={form[types.ADVERTISE]}
-                        onSubmit={handleSubmit(types.ADVERTISE)}
-                        onPrevious={prevStep}
-                    />
-                );
-            default:
-                return (
-                    <Stack>
-                        <StepReview form={form} />
-                        <HStack spacing={4} alignSelf="end">
-                            <Button onClick={handleReset} isDisabled={saving}>
-                                Desfazer
-                            </Button>
-                            <Button
-                                colorScheme="teal"
-                                onClick={handleSave}
-                                isLoading={saving}
-                                isDisabled={saving}
-                                loadingText="Salvando..."
-                            >
-                                Salvar
-                            </Button>
-                        </HStack>
-                    </Stack>
-                );
-        }
-    };
+    const getStepContent = useCallback(
+        (index) => {
+            switch (index) {
+                case 0:
+                    return (
+                        <StepAddress
+                            initialValues={form[types.ADDRESS]}
+                            onSubmit={handleSubmit(types.ADDRESS)}
+                            onPrevious={handleReset}
+                        />
+                    );
+                case 1:
+                    return (
+                        <StepOwner
+                            initialValues={form[types.OWNER]}
+                            onSubmit={handleSubmit(types.OWNER)}
+                            onPrevious={prevStep}
+                        />
+                    );
+                case 2:
+                    return (
+                        <StepLegal
+                            initialValues={form[types.LEGAL]}
+                            onSubmit={handleSubmit(types.LEGAL)}
+                            onPrevious={prevStep}
+                        />
+                    );
+                case 3:
+                    return (
+                        <StepFeatures
+                            initialValues={form[types.FEATURES]}
+                            onSubmit={handleSubmit(types.FEATURES)}
+                            onPrevious={prevStep}
+                        />
+                    );
+                case 4:
+                    return (
+                        <StepFiles
+                            initialValues={form[types.FILES]}
+                            onSubmit={handleSubmit(types.FILES)}
+                            onPrevious={prevStep}
+                        />
+                    );
+                case 5:
+                    return (
+                        <StepAdvertise
+                            initialValues={form[types.ADVERTISE]}
+                            onSubmit={handleSubmit(types.ADVERTISE)}
+                            onPrevious={prevStep}
+                        />
+                    );
+                default:
+                    return (
+                        <Stack>
+                            <StepReview form={form} />
+                            <HStack spacing={4} alignSelf="end">
+                                <Button
+                                    onClick={handleReset}
+                                    isDisabled={saving}
+                                >
+                                    Desfazer
+                                </Button>
+                                <Button
+                                    colorScheme="teal"
+                                    onClick={handleSave}
+                                    isLoading={saving}
+                                    isDisabled={saving}
+                                    loadingText="Salvando..."
+                                >
+                                    Salvar
+                                </Button>
+                            </HStack>
+                        </Stack>
+                    );
+            }
+        },
+        [form, handleReset, handleSave, handleSubmit, prevStep, saving]
+    );
 
     if (loading) return <span>Carregando..</span>;
 
@@ -143,6 +150,7 @@ const PropertyForm = ({ error, data, loading, onSubmit, onCancel, saving }) => {
             )}
             <Stepper steps={STEPS} activeStep={activeStep} />
             {getStepContent(activeStep)}
+            <pre>{JSON.stringify(form, null, 4)}</pre>
         </Stack>
     );
 };
@@ -172,6 +180,7 @@ PropertyForm.propTypes = {
             }).isRequired,
             type: PropTypes.string.isRequired,
         }),
+        urls: PropTypes.arrayOf(PropTypes.string),
     }),
     error: PropTypes.string,
     saving: PropTypes.bool.isRequired,

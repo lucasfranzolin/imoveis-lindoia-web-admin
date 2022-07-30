@@ -112,6 +112,7 @@ const Customers = () => {
                                 <Icon as={SearchIcon} color="gray.300" />
                             </InputLeftElement>
                             <Input
+                                variant="filled"
                                 type="text"
                                 placeholder="Buscar"
                                 value={search}

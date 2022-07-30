@@ -57,6 +57,7 @@ const StepFeatures = ({ initialValues, onPrevious, onSubmit }) => {
                     >
                         <FormLabel htmlFor="purpose">Propósito</FormLabel>
                         <SelectAsync
+                            variant="filled"
                             isLoading={fetchingPurposes}
                             name="purpose"
                             id="purpose"
@@ -85,6 +86,7 @@ const StepFeatures = ({ initialValues, onPrevious, onSubmit }) => {
                     >
                         <FormLabel htmlFor="type">Tipo</FormLabel>
                         <SelectAsync
+                            variant="filled"
                             isLoading={fetchingTypes}
                             name="type"
                             id="type"

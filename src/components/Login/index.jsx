@@ -73,6 +73,7 @@ const Login = () => {
                     >
                         <FormLabel htmlFor="email">Email</FormLabel>
                         <Input
+                            variant="filled"
                             name="email"
                             id="email"
                             type="email"
@@ -93,6 +94,7 @@ const Login = () => {
                         <FormLabel htmlFor="password">Senha</FormLabel>
                         <InputGroup>
                             <Input
+                                variant="filled"
                                 name="password"
                                 id="password"
                                 type={show ? 'text' : 'password'}

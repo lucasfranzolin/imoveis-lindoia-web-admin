@@ -85,6 +85,7 @@ const Register = () => {
                     >
                         <FormLabel htmlFor="fullName">Nome</FormLabel>
                         <Input
+                            variant="filled"
                             name="fullName"
                             id="fullName"
                             type="text"
@@ -102,6 +103,7 @@ const Register = () => {
                     >
                         <FormLabel htmlFor="email">Email</FormLabel>
                         <Input
+                            variant="filled"
                             name="email"
                             id="email"
                             type="email"
@@ -122,6 +124,7 @@ const Register = () => {
                         <FormLabel htmlFor="password">Senha</FormLabel>
                         <InputGroup>
                             <Input
+                                variant="filled"
                                 name="password"
                                 id="password"
                                 type={show ? 'text' : 'password'}

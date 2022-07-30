@@ -1,9 +1,16 @@
+import FormData from 'form-data';
 import formidable from 'formidable';
 import fs from 'fs';
 import httpStatus from 'http-status';
 
 import { propertiesService } from '../../../../services/properties';
 import { errorHandler } from '../../../../utils/error';
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -12,36 +19,38 @@ export default async function handler(req, res) {
     try {
         const { id } = req.query;
         const formData = await new Promise((resolve, reject) =>
-            formidable().parse(req, (error, { metadata }, files) => {
-                if (error) {
-                    reject(error);
+            new formidable.IncomingForm({ multiples: true }).parse(
+                req,
+                (error, fields, files) => {
+                    if (error) {
+                        reject(error);
+                    }
+
+                    let _files;
+                    if (!Array.isArray(files.files)) _files = [files.files];
+                    else _files = files.files;
+
+                    const form = new FormData();
+                    _files.forEach(
+                        ({
+                            filepath, //
+                            mimetype,
+                            originalFilename,
+                            size,
+                        }) =>
+                            form.append(
+                                'files',
+                                fs.createReadStream(filepath),
+                                {
+                                    contentType: mimetype,
+                                    filename: originalFilename,
+                                    knownLength: size,
+                                }
+                            )
+                    );
+                    resolve(form);
                 }
-
-                let _files;
-                if (!Array.isArray(files.files)) _files = [files.files];
-                else _files = files.files;
-
-                const formData = new FormData();
-                _files.forEach(
-                    ({
-                        filepath, //
-                        mimetype,
-                        originalFilename,
-                        size,
-                    }) =>
-                        formData.append(
-                            'files',
-                            fs.createReadStream(filepath),
-                            {
-                                contentType: mimetype,
-                                filename: originalFilename,
-                                knownLength: size,
-                            }
-                        )
-                );
-                formData.append('metadata', metadata);
-                resolve(formData);
-            })
+            )
         );
         const { data } = await propertiesService.upload({ id, formData });
         res.json(data);

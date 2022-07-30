@@ -1,10 +1,4 @@
-import {
-    Box,
-    Heading,
-    Stack,
-    useToast,
-    useUpdateEffect,
-} from '@chakra-ui/react';
+import { Heading, Stack, useToast, useUpdateEffect } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 
@@ -17,8 +11,14 @@ const CustomerEdit = ({ id }) => {
     const router = useRouter();
     const toast = useToast();
     const [{ data, error, loading }, getDetails] = useCustomerDetails();
-    const [{ success, error: updateError, loading: updating }, updateCustomer] =
-        useCustomerUpdate();
+    const [
+        {
+            success, //
+            error: updateError,
+            loading: updating,
+        },
+        updateCustomer,
+    ] = useCustomerUpdate();
 
     useEffectOnce(() => {
         getDetails(id);

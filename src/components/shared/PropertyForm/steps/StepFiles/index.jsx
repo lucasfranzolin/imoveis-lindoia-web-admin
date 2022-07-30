@@ -6,7 +6,7 @@ import { useArray } from '../../../../../hooks/useArray';
 import { GalleryPreview } from '../../../../ui/GalleryPreview';
 import { InputDropArea } from '../../../../ui/InputDropArea';
 import { BaseButtons } from '../../StepperActions/BaseButtons';
-import { initState, withGallery } from './utils';
+import { withGallery } from '../../utils';
 
 const StepFiles = ({ initialValues, onPrevious, onSubmit }) => {
     const [
@@ -16,13 +16,14 @@ const StepFiles = ({ initialValues, onPrevious, onSubmit }) => {
             removeAt,
             set,
             clear,
-            updateAt,
         },
-    ] = useArray(initState(initialValues));
+    ] = useArray(initialValues);
 
     const handleRemove = useCallback(
-        (index, isFile) => {
-            if (isFile) URL.revokeObjectURL(previews[index].url);
+        (index) => {
+            previews[index].file
+                ? URL.revokeObjectURL(previews[index].url)
+                : console.log('push index to array of images to delete in s3');
             removeAt(index);
         },
         [previews, removeAt]
@@ -31,19 +32,9 @@ const StepFiles = ({ initialValues, onPrevious, onSubmit }) => {
     const handleChange = (files) =>
         files.map(withGallery).forEach((i) => push(i));
 
-    const handleSubmitMetadata = useCallback(
-        (index, metadata) => {
-            updateAt(index, {
-                ...previews[index],
-                ...metadata,
-            });
-        },
-        [previews, updateAt]
-    );
-
     const handleNext = useCallback(() => {
         previews.forEach((preview) => {
-            preview.prevIndex < 0 && URL.revokeObjectURL(preview.url);
+            !!preview.file && URL.revokeObjectURL(preview.url);
         });
         onSubmit(previews);
     }, [previews, onSubmit]);
@@ -53,7 +44,6 @@ const StepFiles = ({ initialValues, onPrevious, onSubmit }) => {
             {previews.length > 0 && (
                 <GalleryPreview
                     data={previews}
-                    onSubmitMetadata={handleSubmitMetadata}
                     onRemove={handleRemove}
                     onReorder={set}
                     onClear={clear}
@@ -76,10 +66,9 @@ const StepFiles = ({ initialValues, onPrevious, onSubmit }) => {
 StepFiles.propTypes = {
     initialValues: PropTypes.arrayOf(
         PropTypes.shape({
-            description: PropTypes.string,
-            index: PropTypes.number,
-            downloadUrl: PropTypes.string,
-            fullPath: PropTypes.string,
+            file: PropTypes.any,
+            url: PropTypes.string,
+            uuid: PropTypes.string,
         })
     ).isRequired,
     onSubmit: PropTypes.func.isRequired,

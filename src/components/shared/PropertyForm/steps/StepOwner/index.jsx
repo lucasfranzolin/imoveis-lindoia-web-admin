@@ -48,6 +48,7 @@ const StepOwner = ({ initialValues, onPrevious, onSubmit }) => {
                     >
                         <FormLabel htmlFor="ownerId">Proprietario</FormLabel>
                         <SelectAsync
+                            variant="filled"
                             isLoading={loading}
                             name="ownerId"
                             id="ownerId"
